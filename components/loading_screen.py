@@ -59,7 +59,6 @@ class UIFunction(LoadingScreen):
         ui.timer.timeout.connect(lambda: self.progress(ui))
         ui.timer.start(20) 
     
-
     def update_version(self, ui):
         """
         update_version(ui): update the version of the entire Uis
@@ -96,7 +95,7 @@ class UIFunction(LoadingScreen):
         if self.counter == 50:
             ui.Loading_label.setText("đang kết nối...")
         if self.counter == 73:
-            time.sleep(3)
+            time.sleep(1)
                     
         self.delay(99, 1)
         self.counter += 1

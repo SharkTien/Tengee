@@ -20,7 +20,7 @@ class QuitFrame(QMainWindow):
         QMainWindow.__init__(self, None, QtCore.Qt.WindowStaysOnTopHint)
         uic.loadUi(QUIT_FILE, self)
         self.init_UI()  
-
+    
     def init_UI(self):
         """
         init_UI: set attributes for QuitFrame
