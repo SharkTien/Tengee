@@ -37,8 +37,7 @@
      <widget class="QFrame" name="Loading_Frame">
       <property name="styleSheet">
        <string notr="true">QFrame {
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.9945, y2:1, stop:0.125 rgba(129, 48, 142, 255), stop:1 rgba(63, 31, 95, 255));
-background-color: #854a25;
+background-color: rgb(133, 74, 37);
 }</string>
       </property>
       <property name="frameShape">

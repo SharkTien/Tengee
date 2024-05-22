@@ -1,11 +1,13 @@
 from PyQt5 import QtCore, uic
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
 
+from ui_controller import Controller
 from utils.config import SCREEN_HEIGHT, SCREEN_WIDTH
 
 
 UI_MAIN_PATH = "./ui_files/Home_gui.ui"
 DATA_USERS_PATH = "./data/users/data_users.dat"
+USERS_PATH = "./data/users/users.dat"
 
 class HomeScreen(QMainWindow):
     """
@@ -19,7 +21,8 @@ class HomeScreen(QMainWindow):
             define_role(self)
     """
     switch_window_quit = QtCore.pyqtSignal()
-        
+    switch_window_login = QtCore.pyqtSignal()
+    
     def __init__(self, role, data):
         """
             __init__(self, role): initiate attributes for home screen with users' role and page status to define users' role
@@ -39,7 +42,6 @@ class HomeScreen(QMainWindow):
             round((SCREEN_WIDTH - self.width()) / 2),
             round((SCREEN_HEIGHT - self.height()) / 2),
         )
-        
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.tabs.setCurrentIndex(0)
@@ -68,6 +70,10 @@ class UIFunctions(HomeScreen):
 
             maximize_restore(self, ui)
 
+            change(self, ui)
+
+            backlogin(self, ui)
+
     """
     def __init__(self, ui):  
         """
@@ -75,10 +81,10 @@ class UIFunctions(HomeScreen):
         """
         self.GLOBAL_STATE = False
         self.connect_btn(ui)
-        ui.username.setText(ui.data[0])
+        ui.username.setText(ui.data[2])
         ui.rolelabel.setText("teacher" if ui.data[3] == "1" else "student")
         ui.Entry_password.setText(ui.data[1])
-        
+        ui.Entry_username.setText(ui.data[2])   
 
     def connect_btn(self, ui):
         """
@@ -89,7 +95,8 @@ class UIFunctions(HomeScreen):
         ui.btn_quit.clicked.connect(lambda: self.quit(ui))
         ui.account_btn.clicked.connect(lambda: ui.tabs.setCurrentIndex(1))
         ui.home_btn.clicked.connect(lambda: ui.tabs.setCurrentIndex(0))
-        ui.SavePassword.clicked.connect(lambda: self.changePassword(ui))
+        ui.Save.clicked.connect(lambda: self.change(ui))
+        ui.logout_btn.clicked.connect(lambda: self.backlogin(ui))
 
     def quit(self, ui):
         """"
@@ -129,36 +136,75 @@ class UIFunctions(HomeScreen):
                     """
             )
     
-    def changePassword(self, ui):
+    def change(self, ui):
         checkValue = ui.Entry_Oldpassword.text()
         checkSubmit = ui.submitPasswordLineEdit.text()
         newPassword = ui.Entry_Newpassword.text()
+        with open(DATA_USERS_PATH, 'r', encoding="utf-8") as f:
+            a = f.read().split("\n")
+            d = {a[i]:a[i+1:i+4] for i in range(0, len(a), 4)}
+            d.pop('')
+
         if len(checkValue) * len(checkSubmit) * len(newPassword) == 0:
-            ui.err.show()
-            ui.err.setText("The typing process is not complete")
+            if len(checkValue) or len(checkSubmit) or len(newPassword):
+                ui.err.show()
+                ui.err.setText("The typing process is not complete")
+            else:
+                if len(ui.Entry_username.text()) < 6:
+                    ui.err.show()
+                    ui.err.setText("your username is invalid (length must be more than 6 characters)")
+                else:
+                    d[ui.data[0]][1] = ui.Entry_username.text()
+                    with open(USERS_PATH, 'w', encoding='utf-8') as f:
+                        pass
+                    with open(DATA_USERS_PATH, 'w', encoding='utf-8') as f:
+                        for i in list(d.keys()):
+                            f.write(f"{i}\n")
+                            f.write(f"{d[i][0]}\n")
+                            f.write(f"{d[i][1]}\n")
+                            f.write(f"{d[i][2]}\n")
+                    ui.Save.setDisabled(True)
+                    ui.Save.setText("Saved")
+                    ui.username.setText(ui.Entry_username.text())
+                    QtCore.QTimer.singleShot(1000, lambda: ui.Save.setText("Save"))
+                    QtCore.QTimer.singleShot(1000, lambda: ui.Save.setDisabled(False))
+                    ui.err.hide()
+            
         elif checkValue == ui.data[1]:
             if checkSubmit == newPassword:
-                with open(DATA_USERS_PATH, 'r', encoding="utf-8") as f:
-                    a = f.read().split("\n")
-                    d = {a[i]:a[i+1:i+4] for i in range(0, len(a), 4)}
-                    d.pop('')
+                if len(ui.Entry_username.text()) < 6:
+                    ui.err.show()
+                    ui.err.setText("your username is invalid (length must be more than 6 characters)")
+                else:
+                    d[ui.data[0]][1] = ui.Entry_username.text()
                 d[ui.data[0]][0] = newPassword
+                with open(USERS_PATH, 'w', encoding='utf-8') as f:
+                        pass
                 with open(DATA_USERS_PATH, 'w', encoding='utf-8') as f:
                     for i in list(d.keys()):
                         f.write(f"{i}\n")
                         f.write(f"{d[i][0]}\n")
                         f.write(f"{d[i][1]}\n")
                         f.write(f"{d[i][2]}\n")
-                ui.SavePassword.setDisabled(True)
-                ui.SavePassword.setText("Password Changed")
+                ui.Save.setDisabled(True)
+                ui.Save.setText("Saved")
+                QtCore.QTimer.singleShot(1000, lambda: ui.Save.setText("Save"))
+                QtCore.QTimer.singleShot(1000, lambda: ui.Save.setDisabled(False))
                 ui.err.hide()
+                ui.Entry_password.setText(newPassword)
             else:
                 ui.err.show()
                 ui.err.setText("The passwords entered do not match")
         else:
             ui.err.show()
             ui.err.setText("The old password is incorrect")
-        
+    
+    def backlogin(self, ui):
+        """
+        backlogin(self, ui): sign out account  
+        """
+        ui.switch_window_login.emit()
+
 class StudentUIFunctions(UIFunctions):
     """
         class StudentUIFunctions
@@ -168,6 +214,7 @@ class StudentUIFunctions(UIFunctions):
     """
     def __init__(self, ui):
         super().__init__(ui)
+        ui.addCourses_btn.hide()
 
 class TeacherUIFunctions(UIFunctions):
     """
@@ -178,3 +225,4 @@ class TeacherUIFunctions(UIFunctions):
     """
     def __init__(self, ui):
         super().__init__(ui)
+        ui.ycourses_btn.hide()

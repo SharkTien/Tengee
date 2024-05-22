@@ -40,19 +40,12 @@ class Controller:
         show_login: open login window
         """
         self.login = login_screen.LoginScreen()
-        self.login.switch_window_home.connect(self.reset_login)
+        self.login.switch_window_home.connect(self.close_login)
         self.login.switch_window_home.connect(self.show_home)
         self.login.switch_window_quit.connect(self.show_quit)
         self.loading.close()
         self.login.show()
         self.login.raise_()
-
-    def reset_login(self):
-        """
-            reset_login(self): close login window after sign in succession
-        """
-        self.login.close()
-        self.login = None
 
     def show_home(self, role=None, data=None):
         """
@@ -64,6 +57,8 @@ class Controller:
             self.data = data
         self.home = home_screen.HomeScreen(self.role, self.data)
         self.home.switch_window_quit.connect(self.show_quit)
+        self.home.switch_window_login.connect(self.close_home)
+        self.home.switch_window_login.connect(self.show_login)
         self.home.show()    
 
     def show_quit(self):
@@ -86,7 +81,21 @@ class Controller:
             self.home.setDisabled(
                 state
             ) if all_main else self.home.mainlayout.setDisabled(state)
-        
+
+    def close_login(self):
+        """
+            reset_login(self): close login window after sign in succession
+        """
+        self.login.close()
+        self.login = None
+
+    def close_home(self):
+        """
+            close_home(self): close home window after logout
+        """
+        self.home.close()
+        self.home = None
+ 
     def close_pg(self):
         """
             close_pg(): close window
