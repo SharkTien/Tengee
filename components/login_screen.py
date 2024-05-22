@@ -14,7 +14,7 @@ class LoginScreen(QMainWindow):
     class LoginScreen:
     method:
 
-        __init__(pg)
+        __init__()
 
         initUI()
 
@@ -23,15 +23,13 @@ class LoginScreen(QMainWindow):
         mousePressEvent(event)
 
     """
-    counter = 0
-    switch_window_home = QtCore.pyqtSignal(int)
+    switch_window_home = QtCore.pyqtSignal(int, list)
     switch_window_quit = QtCore.pyqtSignal()
 
-    def __init__(self, pg): 
+    def __init__(self): 
         """
-            __init__(pg): initiate attributes for Login Screen. 
+            __init__(): initiate attributes for Login Screen. 
         """
-        self.pg = pg
         QMainWindow.__init__(self, None, QtCore.Qt.WindowStaysOnTopHint)
         uic.loadUi(UI_PATH, self)
         self.initUI()
@@ -180,7 +178,7 @@ class LoginFunctions(LoginScreen):
         """
         with open(USER_PATH, encoding="utf-8") as f:
             lines = f.readlines()
-        if lines and bool(lines[-1]):
+        if len(lines) > 1:
             ui.NameBox_SI.setText(lines[0].rstrip())
             ui.PassBox_SI.setText(lines[2].rstrip())
             ui.SavePass.setChecked(True)
@@ -198,7 +196,8 @@ class LoginFunctions(LoginScreen):
             ui.btn_maximize.setToolTip("Khôi phục")
             ui.bg_frame.setStyleSheet(
                 """#bg_frame {
-                    border-image: url(:/icons/background_login.jpg);
+                    border-image: url(:/icons/background-login.png);
+                    background-repeat: no-repeat;
                     border-radius: 9px;
                 }"""
             )
@@ -210,65 +209,67 @@ class LoginFunctions(LoginScreen):
             ui.btn_maximize.setToolTip("Phóng to")
             ui.bg_frame.setStyleSheet(
                 """#bg_frame {
-                    border-image: url(:icons/background_login.jpg);
-                    border-radius: 9px;
-                    }"""
+                    background-image: url(:/icons/background-login.png);
+                    background-repeat: no-repeat;
+                }"""
             )
 
     def get_data(self):
         with open(DATA_USERS_PATH, 'r') as f:
-            a = f.readlines()
-            return [a[i:i+4] for i in range(0, len(a), 4)]
-        
+            a = f.read().split("\n")
+            d = {a[i]:a[i+1:i+4] for i in range(0, len(a), 4)}
+            d.pop('')
+            return d
+
     def check_SI(self, ui):
         self.data = self.get_data()
         """
         check_SI(ui): Function check if the information login is valid
         """
-        username = ui.NameBox_SI.text()[:31]
-        password = ui.PassBox_SI.text()[:22]
+        username = ui.NameBox_SI.text()
+        password = ui.PassBox_SI.text()
 
         if len(password) * len(username) == 0:
             ui.frameError.show()
             ui.Error_Content.setText("Chưa điền đầy đủ thông tin đăng nhập")
         else:
-            if username not in [row[0] for row in self.data]:
+            ui.frameError.hide()
+            if username not in list(self.data.keys()):
                 ui.frameError.show()
                 ui.Error_Content.setText("Tên tài khoản không tồn tại. Hãy nhập lại.")
             else:
-                for row in self.data:
-                    if row[0] == username and row[1] == password:
-                        ui.frameError.show()
-                        ui.Error_Content.setText("Mật khẩu không chính xác. Hãy nhập lại.")
-                    else:
-                        name, role = [row[2], int(row[3])
-                            ]
-
-                        with open(USER_PATH, "w", encoding="utf-8") as f:
+                if self.data[username][0] != password:
+                    ui.frameError.show()
+                    ui.Error_Content.setText("Mật khẩu không chính xác. Hãy nhập lại.")
+                else:
+                    name, role = [self.data[username][1], int(self.data[username][2])]
+                
+                    with open(USER_PATH, "w", encoding="utf-8") as f:
+                        if ui.SavePass.isChecked():
                             f.write(f"{username}\n")
                             f.write(f"{name}\n")
                             f.write(f"{password}\n")
                             f.write(f"{str(role)}")
-                        
-                        self.open_home(ui, role)
+                    
+                    self.open_home(ui, role, [username]+self.data[username])
 
                 QtCore.QTimer.singleShot(3000, lambda: ui.frameError.hide())
 
-    def open_home(self, ui, role):
+    def open_home(self, ui, role, data):
         """
             open_home(ui, role): open home window
         """
-        ui.switch_window_home.emit(role)
+        ui.switch_window_home.emit(role, data)
 
     def check_SU(self, ui):
-        self.data = self.get_data()
         """
             check_SU(ui): check if the register information is valid
         """
+        self.data = self.get_data()
         check = True
-        username = ui.NameBox.text()[:31]
-        password = ui.PassBox.text()[:22]
-        name = ui.UserBox.text()[:30]
+        username = ui.NameBox.text()
+        password = ui.PassBox.text()
+        name = ui.UserBox.text()
 
         if len(username) < 8 or list(
             {False for i in username.lower() if i not in self.enabled}
@@ -276,7 +277,7 @@ class LoginFunctions(LoginScreen):
             ui.Note_Name.show()
             check = False
         else:
-            if username in [row[0] for row in self.data]:
+            if username in list(self.data.keys()):
                 ui.Note_Name.show()
                 check = False
             else:

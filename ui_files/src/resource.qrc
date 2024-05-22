@@ -1,9 +1,8 @@
 <RCC>
   <qresource prefix="icons">
-    <file>background_login.jpg</file>
-    <file>Bg.jpg</file>
     <file>close.png</file>
     <file>disk.png</file>
+    <file>background-login.png</file>
     <file>disk--pencil.png</file>
     <file>Edit.png</file>
     <file>edit-alignment.png</file>
@@ -27,10 +26,9 @@
     <file>minimize.png</file>
     <file>minimize_white.png</file>
     <file>minus.png</file>
-    <file>nogo-01.ico</file>
-    <file>nogo-01.png</file>
     <file>plus.png</file>
     <file>question.png</file>
+    <file>logo.png</file>
     <file>selection-input.png</file>
     <file>three-dots-more-indicator.png</file>
     <file>ui-tab--plus.png</file>

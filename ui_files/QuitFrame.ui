@@ -26,7 +26,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(40, 44, 52);
+   <string notr="true">background-color: #281e15;
 border-radius: 10px</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -55,7 +55,8 @@ border-radius: 10px</string>
 color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
-       <string>Xác nhận đóng ứng dụng?</string>
+       <string>Are you sure you want
+ to close the app?</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -91,7 +92,7 @@ color: rgb(255, 255, 255);</string>
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>0</height>
+           <height>40</height>
           </size>
          </property>
          <property name="font">
@@ -115,12 +116,18 @@ QPushButton:hover {
 }</string>
          </property>
          <property name="text">
-          <string> Chấp nhận </string>
+          <string>Accept</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="Deny">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
          <property name="font">
           <font>
            <family>Montserrat</family>
@@ -146,7 +153,7 @@ QPushButton:hover {
 }</string>
          </property>
          <property name="text">
-          <string> Từ chối </string>
+          <string>Deny</string>
          </property>
          <property name="shortcut">
           <string>Esc</string>

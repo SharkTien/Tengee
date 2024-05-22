@@ -4,7 +4,7 @@ from PyQt5 import QtWidgets
 from ui_files import resource
 
 
-from components import quit, loading_screen, login_screen
+from components import quit, loading_screen, login_screen, home_screen
 
 class Controller:
     """
@@ -25,10 +25,9 @@ class Controller:
 
         """
         self.version = version
-        self.main = None
-        self.pg = None
+        self.home = None
 
-    def show_loading(self):
+    def show_loading(self): 
         """
         show_loading: open loading window
         """
@@ -36,20 +35,37 @@ class Controller:
         self.loading.switch_window.connect(self.show_login)
         self.loading.show()
 
-    def show_login(self, pg=None):
+    def show_login(self):
         """
         show_login: open login window
         """
-        if pg:
-            self.pg = pg
-        self.login = login_screen.LoginScreen(self.pg)
-        # self.login.switch_window_home.connect(self.reset_login)
-        # self.login.switch_window_home.connect(self.show_main)
+        self.login = login_screen.LoginScreen()
+        self.login.switch_window_home.connect(self.reset_login)
+        self.login.switch_window_home.connect(self.show_home)
         self.login.switch_window_quit.connect(self.show_quit)
         self.loading.close()
         self.login.show()
         self.login.raise_()
-   
+
+    def reset_login(self):
+        """
+            reset_login(self): close login window after sign in succession
+        """
+        self.login.close()
+        self.login = None
+
+    def show_home(self, role=None, data=None):
+        """
+            show_home(self, role, data): show home screen after sign in succession
+        """
+        if role is not None:
+            self.role = role
+        if data is not None:
+            self.data = data
+        self.home = home_screen.HomeScreen(self.role, self.data)
+        self.home.switch_window_quit.connect(self.show_quit)
+        self.home.show()    
+
     def show_quit(self):
         """
         show_quit: open quit window
@@ -66,19 +82,15 @@ class Controller:
         """
         if self.login:
             self.login.setDisabled(state)
-        # if self.main:
-        #     self.main.setDisabled(
-        #         state
-        #     ) if all_main else self.main.frame_func_btn.setDisabled(state)
+        if self.home:
+            self.home.setDisabled(
+                state
+            ) if all_main else self.home.mainlayout.setDisabled(state)
         
     def close_pg(self):
         """
             close_pg(): close window
         """
-        try:
-            self.pg.close()
-        except:
-            pass
         sys.exit()
 
 def main(version):

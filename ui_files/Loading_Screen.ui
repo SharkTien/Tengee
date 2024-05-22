@@ -38,7 +38,7 @@
       <property name="styleSheet">
        <string notr="true">QFrame {
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.9945, y2:1, stop:0.125 rgba(129, 48, 142, 255), stop:1 rgba(63, 31, 95, 255));
-background-color: rgb(35, 44, 51);
+background-color: #854a25;
 }</string>
       </property>
       <property name="frameShape">
@@ -50,6 +50,19 @@ background-color: rgb(35, 44, 51);
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -118,7 +131,7 @@ background-color: rgb(35, 44, 51);
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
              <property name="spacing">
               <number>0</number>
              </property>
@@ -135,6 +148,26 @@ background-color: rgb(35, 44, 51);
               <number>0</number>
              </property>
              <item>
+              <widget class="QLabel" name="label">
+               <property name="minimumSize">
+                <size>
+                 <width>430</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">#label {
+background-image: url(:/icons/logo.png);
+background-repeat: no-repeat;
+background-position: center;
+}</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="Slogan_Pylearn">
                <property name="enabled">
                 <bool>false</bool>
@@ -142,7 +175,7 @@ background-color: rgb(35, 44, 51);
                <property name="minimumSize">
                 <size>
                  <width>430</width>
-                 <height>200</height>
+                 <height>100</height>
                 </size>
                </property>
                <property name="maximumSize">
@@ -159,7 +192,7 @@ font: bold;
 }</string>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt; color:#dfdfdf;&quot;&gt;Sengpee&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#dfdfdf;&quot;&gt;Chúng tôi quản lý giỏ hàng của bạn&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;We take care of your shopping basket&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>
@@ -221,7 +254,7 @@ font: bold;
 
 QProgressBar::chunk {
 	border-radius: 20px;
-	background-color: qlineargradient(spread:pad, x1:0, y1:0.551, x2:1, y2:0.568, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(149, 149, 149, 255));
+	background-color: qlineargradient(spread:pad, x1:0, y1:0.551, x2:1, y2:0.568, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(192, 144, 84,255));
 }</string>
          </property>
          <property name="value">
@@ -251,7 +284,7 @@ font-size: 18px;
 }</string>
          </property>
          <property name="text">
-          <string>Đang tải ...</string>
+          <string>Loading ...</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -303,6 +336,8 @@ color: rgb(228, 225, 228);</string>
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="src/resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

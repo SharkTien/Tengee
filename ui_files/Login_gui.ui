@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1329</width>
+    <width>1341</width>
     <height>690</height>
    </rect>
   </property>
@@ -71,7 +71,8 @@ background : transparent;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">#bg_frame {
-	border-image: url(:/icons/background_login.jpg);
+	background-image: url(:/icons/background-login.png);
+	background-repeat: no-repeat;
     border-radius: 9px;
 }</string>
       </property>
@@ -296,16 +297,6 @@ QPushButton:hover {
             </property>
            </spacer>
           </item>
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="styleSheet">
-             <string notr="true">background: transparent;</string>
-            </property>
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:26pt; font-weight:600; color:#ffffff;&quot;&gt;Tengee&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </item>
@@ -353,54 +344,6 @@ background: transparent;
           <property name="spacing">
            <number>0</number>
           </property>
-          <item row="3" column="2">
-           <spacer name="verticalSpacer_8">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="2" column="0">
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="2" column="3">
-           <widget class="QFrame" name="SpacerL">
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>150</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="1" alignment="Qt::AlignLeft">
            <widget class="QFrame" name="frame_4">
             <property name="minimumSize">
@@ -517,7 +460,7 @@ border-radius: 9px;</string>
 background: transparent;</string>
                    </property>
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;ĐĂNG NHẬP TÀI KHOẢN&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;SIGN IN&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
@@ -560,6 +503,48 @@ background: transparent;</string>
                     <property name="spacing">
                      <number>0</number>
                     </property>
+                    <item row="0" column="0">
+                     <spacer name="verticalSpacer_6">
+                      <property name="orientation">
+                       <enum>Qt::Vertical</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>20</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item row="1" column="0" alignment="Qt::AlignRight">
+                     <widget class="QLabel" name="NameSI_label">
+                      <property name="minimumSize">
+                       <size>
+                        <width>305</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>iCiel Effra Regular</family>
+                        <pointsize>18</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">color: rgb(255, 255, 255);
+background: transparent;</string>
+                      </property>
+                      <property name="text">
+                       <string>Account name:</string>
+                      </property>
+                     </widget>
+                    </item>
                     <item row="2" column="0">
                      <widget class="QLineEdit" name="NameBox_SI">
                       <property name="minimumSize">
@@ -605,64 +590,9 @@ border-bottom: 1px solid rgb(207, 207, 207);
                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                       </property>
                       <property name="placeholderText">
-                       <string>Nhập tên tài khoản</string>
+                       <string>Type your account name</string>
                       </property>
                      </widget>
-                    </item>
-                    <item row="1" column="0" alignment="Qt::AlignRight">
-                     <widget class="QLabel" name="NameSI_label">
-                      <property name="minimumSize">
-                       <size>
-                        <width>305</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <family>iCiel Effra Regular</family>
-                        <pointsize>18</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">color: rgb(255, 255, 255);
-background: transparent;</string>
-                      </property>
-                      <property name="text">
-                       <string>Tên đăng nhập:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="3" column="0">
-                     <spacer name="verticalSpacer_5">
-                      <property name="orientation">
-                       <enum>Qt::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                    <item row="0" column="0">
-                     <spacer name="verticalSpacer_6">
-                      <property name="orientation">
-                       <enum>Qt::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
                     </item>
                    </layout>
                   </widget>
@@ -809,7 +739,7 @@ border-radius: 0px;
                             </property>
                             <property name="styleSheet">
                              <string notr="true">QPushButton:enabled{
-	image: url(:/images/icons/eye_show.png);
+	image: url(:icons/eye_show.png);
 }</string>
                             </property>
                             <property name="text">
@@ -819,6 +749,9 @@ border-radius: 0px;
                           </item>
                           <item>
                            <widget class="QPushButton" name="eyeHide_SI">
+                            <property name="enabled">
+                             <bool>true</bool>
+                            </property>
                             <property name="minimumSize">
                              <size>
                               <width>30</width>
@@ -833,11 +766,20 @@ border-radius: 0px;
                             </property>
                             <property name="styleSheet">
                              <string notr="true">QPushButton:enabled {
-	image: url(:/images/icons/eye_hide.png);
+	image: url(:icons/eye_hide.png);
 }</string>
                             </property>
                             <property name="text">
                              <string/>
+                            </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>22</width>
+                              <height>22</height>
+                             </size>
+                            </property>
+                            <property name="checkable">
+                             <bool>false</bool>
                             </property>
                            </widget>
                           </item>
@@ -892,7 +834,7 @@ border-bottom: 1px solid rgb(236, 236, 236);
                           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                          </property>
                          <property name="placeholderText">
-                          <string>Nhập mật khẩu</string>
+                          <string>Type your password</string>
                          </property>
                         </widget>
                        </item>
@@ -924,7 +866,7 @@ border-bottom: 1px solid rgb(236, 236, 236);
 background: transparent;</string>
                       </property>
                       <property name="text">
-                       <string>Mật khẩu:</string>
+                       <string>Password:</string>
                       </property>
                      </widget>
                     </item>
@@ -1007,7 +949,7 @@ background: transparent;
 }</string>
                       </property>
                       <property name="text">
-                       <string>Lưu mật khẩu?</string>
+                       <string>Remember me?</string>
                       </property>
                      </widget>
                     </item>
@@ -1152,7 +1094,7 @@ background-color: rgb(109, 109, 109);
 </string>
                       </property>
                       <property name="text">
-                       <string>Đăng nhập</string>
+                       <string>Submit</string>
                       </property>
                       <property name="shortcut">
                        <string>Return</string>
@@ -1181,11 +1123,12 @@ background-color: rgb(109, 109, 109);
 }
 QPushButton:hover {
 color: rgb(207,207,207);
+text-decoration: underline;
 font: italic;
 }</string>
                    </property>
                    <property name="text">
-                    <string>Không có tài khoản? Đăng ký ngay</string>
+                    <string>Create an account? Register now!</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -1259,7 +1202,7 @@ font: italic;
 color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ĐĂNG KÝ TÀI KHOẢN&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;SIGN UP&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
@@ -1373,7 +1316,7 @@ color: rgb(255, 255, 255);</string>
                           </font>
                          </property>
                          <property name="toolTip">
-                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tên đăng ký yêu cầu tối thiểu 8 kí tự, tối đa 31 kí tự, không dấu&lt;/p&gt;&lt;p&gt;Bao gồm phạm vi kí tự A..Z a..z 0..9 @_/. và khoảng trắng &lt;/p&gt;&lt;p&gt;Hoặc tên tài khoản này đã tồn tại.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Registration name requires a minimum of 8 characters, a maximum of 31 characters, and no accents.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;It must include the character range A..Z a..z 0..9 @_/. and spaces.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Or this username already exists.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="toolTipDuration">
                           <number>-1</number>
@@ -1427,7 +1370,7 @@ min-height: 20px;
 color: rgb(255, 255, 255);</string>
                          </property>
                          <property name="text">
-                          <string>Tên đăng ký:</string>
+                          <string>Account name:</string>
                          </property>
                         </widget>
                        </item>
@@ -1482,7 +1425,7 @@ border-bottom: 1px solid rgb(207, 207, 207);
                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                       </property>
                       <property name="placeholderText">
-                       <string>Nhập tên đăng ký</string>
+                       <string>Type your account name</string>
                       </property>
                      </widget>
                     </item>
@@ -1596,7 +1539,7 @@ border-bottom: 1px solid rgb(207, 207, 207);
                           </font>
                          </property>
                          <property name="toolTip">
-                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mật khẩu đăng ký yêu cầu tối thiểu 8 kí tự, tối đa 22 kí tự, gõ không dấu.&lt;/p&gt;&lt;p&gt;Bao gồm phạm vi kí tự A..Z a..z 0..9 @_/. và khoảng trắng&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To register, you need to create a password that is between 8 and 22 characters long, including only the following characters: A..Z, a..z, 0..9, @, /, and spaces. Accented characters are not allowed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="toolTipDuration">
                           <number>0</number>
@@ -1650,7 +1593,7 @@ min-height: 20px;
 background: transparent;</string>
                          </property>
                          <property name="text">
-                          <string>Mật khẩu đăng ký: </string>
+                          <string>Password:</string>
                          </property>
                         </widget>
                        </item>
@@ -1751,7 +1694,7 @@ border-bottom: 1px solid rgb(236, 236, 236);
                             </property>
                             <property name="styleSheet">
                              <string notr="true">QPushButton:enabled{
-	image: url(:/images/icons/eye_show.png);
+	image: url(:icons/eye_show.png);
 }</string>
                             </property>
                             <property name="text">
@@ -1775,11 +1718,17 @@ border-bottom: 1px solid rgb(236, 236, 236);
                             </property>
                             <property name="styleSheet">
                              <string notr="true">QPushButton:enabled {
-	image: url(:/images/icons/eye_hide.png);
+	image: url(:icons/eye_hide.png);
 }</string>
                             </property>
                             <property name="text">
                              <string/>
+                            </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>23</width>
+                              <height>23</height>
+                             </size>
                             </property>
                            </widget>
                           </item>
@@ -1824,6 +1773,9 @@ border-bottom: 1px solid rgb(236, 236, 236);
                          <property name="locale">
                           <locale language="Vietnamese" country="Vietnam"/>
                          </property>
+                         <property name="text">
+                          <string/>
+                         </property>
                          <property name="maxLength">
                           <number>22</number>
                          </property>
@@ -1834,7 +1786,7 @@ border-bottom: 1px solid rgb(236, 236, 236);
                           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                          </property>
                          <property name="placeholderText">
-                          <string>Nhập mật khẩu</string>
+                          <string>Type your password</string>
                          </property>
                         </widget>
                        </item>
@@ -2005,7 +1957,7 @@ min-height: 20px;
 color: rgb(255, 255, 255);</string>
                          </property>
                          <property name="text">
-                          <string>Tên người dùng: </string>
+                          <string>User name:</string>
                          </property>
                         </widget>
                        </item>
@@ -2060,7 +2012,7 @@ border-bottom: 1px solid rgb(207, 207, 207);
                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                       </property>
                       <property name="placeholderText">
-                       <string>Nhập tên người dùng</string>
+                       <string>Type your user name</string>
                       </property>
                      </widget>
                     </item>
@@ -2118,7 +2070,7 @@ border-bottom: 1px solid rgb(207, 207, 207);
 color: rgb(255, 255, 255);</string>
                       </property>
                       <property name="text">
-                       <string>Giáo viên</string>
+                       <string>Teacher</string>
                       </property>
                      </widget>
                     </item>
@@ -2137,7 +2089,7 @@ color: rgb(255, 255, 255);</string>
 color: rgb(255, 255, 255);</string>
                       </property>
                       <property name="text">
-                       <string>Học sinh</string>
+                       <string>Student</string>
                       </property>
                       <property name="checked">
                        <bool>true</bool>
@@ -2219,7 +2171,7 @@ background-color: rgb(109, 109, 109);
 </string>
                       </property>
                       <property name="text">
-                       <string>Đăng ký</string>
+                       <string>Submit</string>
                       </property>
                       <property name="shortcut">
                        <string>Return</string>
@@ -2248,11 +2200,12 @@ background-color: rgb(109, 109, 109);
 }
 QPushButton:hover {
 color: rgb(207,207,207);
-font: italic;
+	font: italic;
+	text-decoration: underline;
 }</string>
                    </property>
                    <property name="text">
-                    <string>Quay trở về khung đăng nhập</string>
+                    <string>Back to Sign in</string>
                    </property>
                    <property name="autoRepeat">
                     <bool>true</bool>
@@ -2385,6 +2338,19 @@ font: italic;
             </property>
            </widget>
           </item>
+          <item row="3" column="2">
+           <spacer name="verticalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item row="1" column="2">
            <spacer name="verticalSpacer_7">
             <property name="orientation">
@@ -2394,6 +2360,41 @@ font: italic;
              <size>
               <width>20</width>
               <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="3">
+           <widget class="QFrame" name="SpacerL">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
              </size>
             </property>
            </spacer>

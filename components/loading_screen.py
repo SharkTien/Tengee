@@ -72,7 +72,7 @@ class UIFunction(LoadingScreen):
             delay(point, wait): This affects to progress function, if count == /point then time.sleep(/wait)
         """
         if self.counter == point:
-            time.sleep(wait)
+            time.sleep(0)
 
     def progress(self, ui):
         """
