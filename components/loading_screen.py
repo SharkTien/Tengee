@@ -17,11 +17,11 @@ class LoadingScreen(QMainWindow):
 
     """
     counter = 0
-    switch_window = QtCore.pyqtSignal(object)
+    switch_window_login = QtCore.pyqtSignal()
 
     def __init__(self, version): 
         """
-            __init__(version): initiate attributes for Loading Screen
+            __init__(version): initiate attributes for LoadingScreen
         """
         self.version = version
 
@@ -48,7 +48,6 @@ class UIFunction(LoadingScreen):
         class UIFunction for LoadingScreen including methods processing progress bar.
         Include version, 
     """
-    pg = None
 
     def __init__(self, ui):
         """
@@ -82,7 +81,7 @@ class UIFunction(LoadingScreen):
         ui.progressBar.setValue(self.counter)
         if self.counter >= 100:
             ui.timer.stop()
-            ui.switch_window.emit(self.pg)
+            ui.switch_window_login.emit()
 
         if self.counter == 6:
             ui.timer.singleShot(

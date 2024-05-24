@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icons">
+    <file>search-interface-symbol.png</file>
+    <file>shopping-cart.png</file>
     <file>close.png</file>
     <file>disk.png</file>
     <file>background-login.png</file>

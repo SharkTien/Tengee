@@ -37,7 +37,7 @@ class LoginScreen(QMainWindow):
 
     def initUI(self):
         """
-            initUI: inititate and move window to center of screen, then initiate attributes     
+            initUI(): inititate and move window to center of screen, then initiate attributes     
         """
         self.frameError.hide()
         self.eyeHide_SI.hide()
@@ -66,7 +66,7 @@ class LoginScreen(QMainWindow):
     
     def moveWindow(self, event):
         """
-            moveWindow: enable to drag the window  
+            moveWindow(event): enable to drag the window  
         """
         if LoginFunctions.GLOBAL_STATE == True:
             LoginFunctions.maximize_restore(self)
@@ -215,6 +215,9 @@ class LoginFunctions(LoginScreen):
             )
 
     def get_data(self):
+        """
+        get_data() -> list: get data from file data. Format: [{'accountname':['password','username',bool]]
+        """
         with open(DATA_USERS_PATH, 'r') as f:
             a = f.read().split("\n")
             d = {a[i]:a[i+1:i+4] for i in range(0, len(a), 4)}
@@ -257,7 +260,7 @@ class LoginFunctions(LoginScreen):
 
     def open_home(self, ui, role, data):
         """
-            open_home(ui, role): open home window
+            open_home(ui, role, data): open home window
         """
         ui.switch_window_home.emit(role, data)
 

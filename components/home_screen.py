@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, uic
+from PyQt5 import QtCore, uic, sip
 from PyQt5.QtWidgets import QFileDialog, QMainWindow, QWidget, QVBoxLayout
 
 from ui_controller import Controller
@@ -28,10 +28,13 @@ class HomeScreen(QMainWindow):
     
     def __init__(self, role, data):
         """
-            __init__(self, role): initiate attributes for home screen with users' role and page status to define users' role
+            __init__(self, role, data): initiate attributes for home screen with users' role and page status to define users' role
         """
         self.role = role
         self.data = data
+        self.data_courses = open(COURSES_PATH, 'r', encoding="utf-8").read().split("\n")[:-1]
+        self.courses_list = [self.data_courses[i:i+6] for i in range(0, len(self.data_courses), 6)]
+        
         QMainWindow.__init__(self, None, QtCore.Qt.WindowStaysOnTopHint)
         uic.loadUi(UI_MAIN_PATH, self)
         self.init_UI()
@@ -80,7 +83,15 @@ class UIFunctions(HomeScreen):
     """
 
     class CardFrame(QWidget):
+        """
+        class CardFrame: Generate UI Card for fetching data
+        method:
+            __init__(ui, *args, **kwargs)
+        """
         def __init__(ui, *args, **kwargs):
+            """
+            initiate class with attributes from class QWidget and load UI file
+            """
             super().__init__(*args, **kwargs)
             uic.loadUi(CARD_PATH, ui)
 
@@ -90,7 +101,7 @@ class UIFunctions(HomeScreen):
         """
         self.GLOBAL_STATE = False
         self.connect_btn(ui)
-        self.load_data(ui)
+        self.load_data(ui, "python")
         ui.username.setText(ui.data[2])
         ui.rolelabel.setText("teacher" if ui.data[3] == "1" else "student")
         ui.Entry_password.setText(ui.data[1])
@@ -107,7 +118,9 @@ class UIFunctions(HomeScreen):
         ui.home_btn.clicked.connect(lambda: ui.tabs.setCurrentIndex(0))
         ui.Save.clicked.connect(lambda: self.change(ui))
         ui.logout_btn.clicked.connect(lambda: self.backlogin(ui))
-
+        ui.searchgo_btn.clicked.connect(lambda: self.load_data(ui, ui.search.text()))
+        ui.it.clicked.connect(lambda: self.load_data(ui, 'python'))
+        ui.marketing.clicked.connect(lambda: self.load_data(ui, 'marketing')) 
     def quit(self, ui):
         """"
         quit(self, ui): show quit screen    
@@ -147,6 +160,9 @@ class UIFunctions(HomeScreen):
             )
     
     def change(self, ui):
+        """
+        change(self, ui): edit data including password, nameaccount, creditcards and save into data file
+        """
         checkValue = ui.Entry_Oldpassword.text()
         checkSubmit = ui.submitPasswordLineEdit.text()
         newPassword = ui.Entry_Newpassword.text()
@@ -215,30 +231,36 @@ class UIFunctions(HomeScreen):
         """
         ui.switch_window_login.emit()
     
-    def load_data(self, ui):
+    def load_data(self, ui, keyword):
+        """
+        load_data(self, ui, keyword): Fetch data based on the keyword from data file
+        """
+        ui.descriptionfilter.setText(f"Help you get more career opportunities with '{keyword}'")
         current_layout = ui.homecontents.layout()
         if not current_layout:
             current_layout = QVBoxLayout()
-            current_layout.setContentsMargins(9, 9, 9, 9)
+            current_layout.setContentsMargins(0, 0, 0, 0)
             ui.homecontents.setLayout(current_layout)
-        
+        if current_layout:
+            for i in ui.homecontents.children()[1:]:
+                i.setParent(None)
         ui.homescroll.verticalScrollBar().setValue(1)
 
-        data = open(COURSES_PATH, 'r', encoding="utf-8").read().split("\n")[:-1]
-        courses_list = [data[i:i+6] for i in range(0, len(data), 6)]
-        for course in courses_list:
-            ui.Card = self.CardFrame()
-            current_layout.addWidget(ui.Card)
-            ui.Card.cardimg.setStyleSheet(f"""
-                            border-image: url(./ui_files/src/courses/{course[5]});
-                            border-radius: 10px;
-                                          """)
-            ui.Card.title.setText(course[0])
-            ui.Card.author.setText(course[1])
-            ui.Card.description.setText(course[2])
-            ui.Card.price.setText(course[3])
-            ui.Card.oldprice.setText(course[4])
-    
+        for course in ui.courses_list:
+            if keyword.lower() in ' '.join([course[0].lower(),course[1].lower(), course[2].lower()]):
+                ui.Card = self.CardFrame()
+                current_layout.addWidget(ui.Card)
+                ui.Card.cardimg.setStyleSheet(f"""
+                                border-image: url(./ui_files/src/courses/{course[5]});
+                                border-radius: 10px;
+                                padding: -50px;
+                                            """)
+                ui.Card.title.setText(course[0])
+                ui.Card.author.setText(course[1])
+                ui.Card.description.setText(course[2])
+                ui.Card.price.setText(course[3])
+                ui.Card.oldprice.setText(course[4])
+
 class StudentUIFunctions(UIFunctions):
     """
         class StudentUIFunctions
@@ -247,6 +269,9 @@ class StudentUIFunctions(UIFunctions):
             __init__(self, ui)
     """
     def __init__(self, ui):
+        """
+        __init__(self, ui): initiate attributes for Student role and related functions
+        """
         super().__init__(ui)
         ui.addCourses_btn.hide()
 
@@ -258,5 +283,8 @@ class TeacherUIFunctions(UIFunctions):
             __init__(self, ui)
     """
     def __init__(self, ui):
+        """
+        __init__(self, ui): initiate attributes for Student role and related functions
+        """
         super().__init__(ui)
         ui.ycourses_btn.hide()

@@ -14,6 +14,8 @@ class Controller:
 
         show_loading
 
+        show_home(self, role, data)
+
         show_quit
 
         disabled_windows
@@ -32,7 +34,7 @@ class Controller:
         show_loading: open loading window
         """
         self.loading = loading_screen.LoadingScreen(self.version)
-        self.loading.switch_window.connect(self.show_login)
+        self.loading.switch_window_login.connect(self.show_login)
         self.loading.show()
 
     def show_login(self):
@@ -84,7 +86,7 @@ class Controller:
 
     def close_login(self):
         """
-            reset_login(self): close login window after sign in succession
+            close_login(self): close login window after sign in succession
         """
         self.login.close()
         self.login = None
