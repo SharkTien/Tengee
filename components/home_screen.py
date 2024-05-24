@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, uic
-from PyQt5.QtWidgets import QFileDialog, QMainWindow
+from PyQt5.QtWidgets import QFileDialog, QMainWindow, QWidget, QVBoxLayout
 
 from ui_controller import Controller
 from utils.config import SCREEN_HEIGHT, SCREEN_WIDTH
@@ -8,6 +8,9 @@ from utils.config import SCREEN_HEIGHT, SCREEN_WIDTH
 UI_MAIN_PATH = "./ui_files/Home_gui.ui"
 DATA_USERS_PATH = "./data/users/data_users.dat"
 USERS_PATH = "./data/users/users.dat"
+COURSES_PATH = "./data/courses/data.dat"
+
+CARD_PATH = "./ui_files/card.ui"
 
 class HomeScreen(QMainWindow):
     """
@@ -75,12 +78,19 @@ class UIFunctions(HomeScreen):
             backlogin(self, ui)
 
     """
+
+    class CardFrame(QWidget):
+        def __init__(ui, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            uic.loadUi(CARD_PATH, ui)
+
     def __init__(self, ui):  
         """
             __init__(self): initiate buttton functions and data connection.
         """
         self.GLOBAL_STATE = False
         self.connect_btn(ui)
+        self.load_data(ui)
         ui.username.setText(ui.data[2])
         ui.rolelabel.setText("teacher" if ui.data[3] == "1" else "student")
         ui.Entry_password.setText(ui.data[1])
@@ -204,7 +214,31 @@ class UIFunctions(HomeScreen):
         backlogin(self, ui): sign out account  
         """
         ui.switch_window_login.emit()
+    
+    def load_data(self, ui):
+        current_layout = ui.homecontents.layout()
+        if not current_layout:
+            current_layout = QVBoxLayout()
+            current_layout.setContentsMargins(9, 9, 9, 9)
+            ui.homecontents.setLayout(current_layout)
+        
+        ui.homescroll.verticalScrollBar().setValue(1)
 
+        data = open(COURSES_PATH, 'r', encoding="utf-8").read().split("\n")[:-1]
+        courses_list = [data[i:i+6] for i in range(0, len(data), 6)]
+        for course in courses_list:
+            ui.Card = self.CardFrame()
+            current_layout.addWidget(ui.Card)
+            ui.Card.cardimg.setStyleSheet(f"""
+                            border-image: url(./ui_files/src/courses/{course[5]});
+                            border-radius: 10px;
+                                          """)
+            ui.Card.title.setText(course[0])
+            ui.Card.author.setText(course[1])
+            ui.Card.description.setText(course[2])
+            ui.Card.price.setText(course[3])
+            ui.Card.oldprice.setText(course[4])
+    
 class StudentUIFunctions(UIFunctions):
     """
         class StudentUIFunctions
