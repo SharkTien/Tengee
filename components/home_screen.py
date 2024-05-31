@@ -1,14 +1,10 @@
 from PyQt5 import QtCore, uic, sip
-from PyQt5.QtWidgets import QFileDialog, QMainWindow, QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout
 
-from ui_controller import Controller
 from utils.config import SCREEN_HEIGHT, SCREEN_WIDTH
 
 
 UI_MAIN_PATH = "./ui_files/Home_gui.ui"
-DATA_USERS_PATH = "./data/users/data_users.dat"
-USERS_PATH = "./data/users/users.dat"
-COURSES_PATH = "./data/courses/data.dat"
 
 CARD_PATH = "./ui_files/card.ui"
 
@@ -32,8 +28,9 @@ class HomeScreen(QMainWindow):
         """
         self.role = role
         self.data = data
-        self.data_courses = open(COURSES_PATH, 'r', encoding="utf-8").read().split("\n")[:-1]
-        self.courses_list = [self.data_courses[i:i+6] for i in range(0, len(self.data_courses), 6)]
+        print(self.data)
+        self.data_courses = self.data.get_data(0)
+        # print(self.data_courses)
         
         QMainWindow.__init__(self, None, QtCore.Qt.WindowStaysOnTopHint)
         uic.loadUi(UI_MAIN_PATH, self)

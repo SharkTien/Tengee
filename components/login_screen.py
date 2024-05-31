@@ -3,6 +3,7 @@ import time
 from PyQt5 import QtCore, QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow
+from data_init import DataManager
 
 USER_PATH = "./data/users/users.dat"
 UI_PATH = "./ui_files/Login_gui.ui"
@@ -22,18 +23,43 @@ class LoginScreen(QMainWindow):
 
         mousePressEvent(event)
 
+        connect_btn()
+
+        default()
+
+        openQuitFrame()
+
+        check_autosave()
+
+        maximize_restore()
+
+        check_SI()
+
+        check_SU()
+
+        open_main()
+
+        get_login_data()
+
+
     """
     switch_window_home = QtCore.pyqtSignal(int, list)
     switch_window_quit = QtCore.pyqtSignal()
+    enabled = "qwertyuiopasdfghjklzxcvbnm1234567890 @/._"
+    GLOBAL_STATE = False
+    STATE_ECHOPASS = True
 
-    def __init__(self): 
+    def __init__(self, datamanager): 
         """
             __init__(): initiate attributes for Login Screen. 
         """
         QMainWindow.__init__(self, None, QtCore.Qt.WindowStaysOnTopHint)
         uic.loadUi(UI_PATH, self)
         self.initUI()
-        LoginFunctions(self)
+        self.datamanager = datamanager
+        self.data = self.get_login_data()
+        self.connect_btn()
+        self.check_autosave()
 
     def initUI(self):
         """
@@ -68,8 +94,8 @@ class LoginScreen(QMainWindow):
         """
             moveWindow(event): enable to drag the window  
         """
-        if LoginFunctions.GLOBAL_STATE == True:
-            LoginFunctions.maximize_restore(self)
+        if self.GLOBAL_STATE == True:
+            self.maximize_restore(self)
         if event.buttons() == Qt.LeftButton:
             self.move(self.pos() + event.globalPos() - self.dragPos)
             self.dragPos = event.globalPos()
@@ -80,121 +106,83 @@ class LoginScreen(QMainWindow):
             mousePressEvent: catch event dragging
         """
         self.dragPos = event.globalPos()
-
-
-class LoginFunctions(LoginScreen):
-    """
-    class LoginFunctions:
-        method:
-        __init__(ui)
-
-        connect_btn(ui)
-
-        default(ui)
-
-        openQuitFrame(ui)
-
-        check_autosave(ui)
-
-        maximize_restore(ui)
-
-        check_SI(ui)
-
-        check_SU(ui)
-
-        open_main(ui)
-
-        get_data(ui)
-
-    """
-    enabled = "qwertyuiopasdfghjklzxcvbnm1234567890 @/._"
-    GLOBAL_STATE = False
-    STATE_ECHOPASS = True
-
-    def __init__(self, ui):
+    
+    def connect_btn(self):
         """
-            __init__(ui): initiate functions for ui
+            connect_btn(): add function for button close, minimize, maximize
         """
-        self.data = self.get_data()
-        self.connect_btn(ui)
-        self.check_autosave(ui)
+        self.btn_maximize.setToolTip("Phóng to")
+        self.btn_minimize.setToolTip("Thu nhỏ")
+        self.btn_quit.setToolTip("Đóng")
 
-    def connect_btn(self, ui):
-        """
-            connect_btn(ui): add function for button close, minimize, maximize
-        """
-        ui.btn_maximize.setToolTip("Phóng to")
-        ui.btn_minimize.setToolTip("Thu nhỏ")
-        ui.btn_quit.setToolTip("Đóng")
+        self.btn_minimize.clicked.connect(lambda: self.showMinimized())
+        self.btn_maximize.clicked.connect(lambda: self.maximize_restore())
+        self.btn_quit.clicked.connect(lambda: self.openQuitFrame())
 
-        ui.btn_minimize.clicked.connect(lambda: ui.showMinimized())
-        ui.btn_maximize.clicked.connect(lambda: self.maximize_restore(ui))
-        ui.btn_quit.clicked.connect(lambda: self.openQuitFrame(ui))
-
-        ui.eyeHide_SI.clicked.connect(
-            lambda: ui.PassBox_SI.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.eyeHide_SI.clicked.connect(
+            lambda: self.PassBox_SI.setEchoMode(QtWidgets.QLineEdit.Password)
         )
-        ui.eyeHide.clicked.connect(
-            lambda: ui.PassBox.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.eyeHide.clicked.connect(
+            lambda: self.PassBox.setEchoMode(QtWidgets.QLineEdit.Password)
         )
-        ui.eyeShow_SI.clicked.connect(
-            lambda: ui.PassBox_SI.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.eyeShow_SI.clicked.connect(
+            lambda: self.PassBox_SI.setEchoMode(QtWidgets.QLineEdit.Normal)
         )
-        ui.eyeShow.clicked.connect(
-            lambda: ui.PassBox.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.eyeShow.clicked.connect(
+            lambda: self.PassBox.setEchoMode(QtWidgets.QLineEdit.Normal)
         )
-        ui.SignIn_Bt.clicked.connect(lambda: self.check_SI(ui))
-        ui.SignUp_Bt.clicked.connect(lambda: self.check_SU(ui))
-        ui.ConvertButton.clicked.connect(lambda: ui.stacked_widget.setCurrentIndex(1))
+        self.SignIn_Bt.clicked.connect(lambda: self.check_SI())
+        self.SignUp_Bt.clicked.connect(lambda: self.check_SU())
+        self.ConvertButton.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(1))
 
-        ui.ConvertButton_SU.clicked.connect(
-            lambda: ui.stacked_widget.setCurrentIndex(0)
+        self.ConvertButton_SU.clicked.connect(
+            lambda: self.stacked_widget.setCurrentIndex(0)
         )
-        ui.ConvertButton_4.clicked.connect(lambda: ui.stacked_widget.setCurrentIndex(0))
-        ui.ConvertButton.clicked.connect(lambda: self.default(ui))
+        self.ConvertButton_4.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(0))
+        self.ConvertButton.clicked.connect(lambda: self.default())
 
-    def default(self, ui):
+    def default(self):
         """
-        default(ui): Function reset state
+        default(): Function reset state
         """
-        ui.STATE_ECHOPASS = True
-        ui.PassBox.clear()
-        ui.NameBox.clear()
-        ui.UserBox.clear()
-        ui.Note_Name.hide()
-        ui.Note_Pass.hide()
-        ui.Note_User.hide()
-        ui.student.setChecked(True)
+        self.STATE_ECHOPASS = True
+        self.PassBox.clear()
+        self.NameBox.clear()
+        self.UserBox.clear()
+        self.Note_Name.hide()
+        self.Note_Pass.hide()
+        self.Note_User.hide()
+        self.student.setChecked(True)
 
-    def openQuitFrame(self, ui):
+    def openQuitFrame(self):
         """
-        openQuitFrame(ui): open Quit window
+        openQuitFrame(): open Quit window
         """
-        ui.switch_window_quit.emit()
+        self.switch_window_quit.emit()
 
-    def check_autosave(self, ui):
+    def check_autosave(self):
         """
-        check_autosave(ui): open data file to check saved account
+        check_autosave(): open data file to check saved account
         """
         with open(USER_PATH, encoding="utf-8") as f:
             lines = f.readlines()
         if len(lines) > 1:
-            ui.NameBox_SI.setText(lines[0].rstrip())
-            ui.PassBox_SI.setText(lines[2].rstrip())
-            ui.SavePass.setChecked(True)
+            self.NameBox_SI.setText(lines[0].rstrip())
+            self.PassBox_SI.setText(lines[2].rstrip())
+            self.SavePass.setChecked(True)
 
-    def maximize_restore(self, ui):
+    def maximize_restore(self):
         """
-        maximize_restore(ui): check if the window is maximize or not to maximize and minimize
+        maximize_restore(): check if the window is maximize or not to maximize and minimize
         """
         status = self.GLOBAL_STATE
 
         if status == False:
-            ui.showMaximized()
+            self.showMaximized()
             self.GLOBAL_STATE = True
-            ui.verticalLayout.setContentsMargins(0, 0, 0, 0)
-            ui.btn_maximize.setToolTip("Khôi phục")
-            ui.bg_frame.setStyleSheet(
+            self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+            self.btn_maximize.setToolTip("Khôi phục")
+            self.bg_frame.setStyleSheet(
                 """#bg_frame {
                     border-image: url(:/icons/background-login.png);
                     background-repeat: no-repeat;
@@ -202,120 +190,116 @@ class LoginFunctions(LoginScreen):
                 }"""
             )
         else:
-            ui.showNormal()
+            self.showNormal()
             self.GLOBAL_STATE = False
-            ui.resize(ui.width() + 1, ui.height() + 1)
-            ui.verticalLayout.setContentsMargins(10, 10, 10, 10)
-            ui.btn_maximize.setToolTip("Phóng to")
-            ui.bg_frame.setStyleSheet(
+            self.resize(self.width() + 1, self.height() + 1)
+            self.verticalLayout.setContentsMargins(10, 10, 10, 10)
+            self.btn_maximize.setToolTip("Phóng to")
+            self.bg_frame.setStyleSheet(
                 """#bg_frame {
                     background-image: url(:/icons/background-login.png);
                     background-repeat: no-repeat;
                 }"""
             )
 
-    def get_data(self):
+    def get_login_data(self):
         """
         get_data() -> list: get data from file data. Format: [{'accountname':['password','username',bool]]
         """
-        with open(DATA_USERS_PATH, 'r') as f:
-            a = f.read().split("\n")
-            d = {a[i]:a[i+1:i+4] for i in range(0, len(a), 4)}
-            d.pop('')
-            return d
-
-    def check_SI(self, ui):
-        self.data = self.get_data()
+        data = dict()
+        for item in self.datamanager.get_data(1):
+            p = item.get_this_user()
+            data[p[0]] = p[1]
+        return data
+    
+    def check_SI(self):
+        self.data = self.get_login_data()
         """
-        check_SI(ui): Function check if the information login is valid
+        check_SI(): Function check if the information login is valid
         """
-        username = ui.NameBox_SI.text()
-        password = ui.PassBox_SI.text()
+        username = self.NameBox_SI.text()
+        password = self.PassBox_SI.text()
 
         if len(password) * len(username) == 0:
-            ui.frameError.show()
-            ui.Error_Content.setText("Chưa điền đầy đủ thông tin đăng nhập")
+            self.frameError.show()
+            self.Error_Content.setText("Chưa điền đầy đủ thông tin đăng nhập")
         else:
-            ui.frameError.hide()
+            self.frameError.hide()
             if username not in list(self.data.keys()):
-                ui.frameError.show()
-                ui.Error_Content.setText("Tên tài khoản không tồn tại. Hãy nhập lại.")
+                self.frameError.show()
+                self.Error_Content.setText("Tên tài khoản không tồn tại. Hãy nhập lại.")
             else:
                 if self.data[username][0] != password:
-                    ui.frameError.show()
-                    ui.Error_Content.setText("Mật khẩu không chính xác. Hãy nhập lại.")
+                    self.frameError.show()
+                    self.Error_Content.setText("Mật khẩu không chính xác. Hãy nhập lại.")
                 else:
                     name, role = [self.data[username][1], int(self.data[username][2])]
                 
                     with open(USER_PATH, "w", encoding="utf-8") as f:
-                        if ui.SavePass.isChecked():
+                        if self.SavePass.isChecked():
                             f.write(f"{username}\n")
                             f.write(f"{name}\n")
                             f.write(f"{password}\n")
                             f.write(f"{str(role)}")
                     
-                    self.open_home(ui, role, [username]+self.data[username])
+                    self.open_home(role, [username]+self.data[username])
 
-                QtCore.QTimer.singleShot(3000, lambda: ui.frameError.hide())
+                QtCore.QTimer.singleShot(3000, lambda: self.frameError.hide())
 
-    def open_home(self, ui, role, data):
+    def open_home(self, role, data):
         """
             open_home(ui, role, data): open home window
         """
-        ui.switch_window_home.emit(role, data)
+        self.switch_window_home.emit(role, data)
 
-    def check_SU(self, ui):
+    def check_SU(self):
         """
-            check_SU(ui): check if the register information is valid
+            check_SU(): check if the register information is valid
         """
-        self.data = self.get_data()
+        self.data = self.get_login_data()
         check = True
-        username = ui.NameBox.text()
-        password = ui.PassBox.text()
-        name = ui.UserBox.text()
+        username = self.NameBox.text()
+        password = self.PassBox.text()
+        name = self.UserBox.text()
 
         if len(username) < 8 or list(
             {False for i in username.lower() if i not in self.enabled}
         ) == [False]:
-            ui.Note_Name.show()
+            self.Note_Name.show()
             check = False
         else:
             if username in list(self.data.keys()):
-                ui.Note_Name.show()
+                self.Note_Name.show()
                 check = False
             else:
-                ui.Note_Name.hide()
+                self.Note_Name.hide()
 
         if len(password) < 8 or list(
             {False for i in password.lower() if i not in self.enabled}
         ) == [False]:
-            ui.Note_Pass.show()
+            self.Note_Pass.show()
             check = False
         else:
-            ui.Note_Pass.hide()
+            self.Note_Pass.hide()
 
         if "".join(i for i in name.lower() if i not in self.enabled).isalnum():
-            ui.Note_User.hide()
+            self.Note_User.hide()
 
         elif "".join(i for i in name.lower() if i not in self.enabled) != "":
-            ui.Note_User.show()
+            self.Note_User.show()
             check = False
         else:
-            ui.Note_User.hide()
+            self.Note_User.hide()
         if len(name) < 6:
-            ui.Note_User.show()
+            self.Note_User.show()
             check = False
 
         if check:
-            role = 1 if ui.teacher.isChecked() else 0
-            with open(DATA_USERS_PATH, 'a+', encoding='utf-8') as f:
-                f.write(f"{username}\n")
-                f.write(f"{password}\n")
-                f.write(f"{name}\n")
-                f.write(f"{str(role)}\n")
-            ui.NameBox_SI.clear()
-            ui.PassBox_SI.clear()
-            ui.SavePass.setChecked(False)
-            ui.stacked_widget.setCurrentIndex(2)
+            role = 1 if self.teacher.isChecked() else 0
+            self.datamanager.insert_data(1, [username, password, name, role])
+            self.NameBox_SI.clear()
+            self.PassBox_SI.clear()
+            self.SavePass.setChecked(False)
+            self.stacked_widget.setCurrentIndex(2)
 
 

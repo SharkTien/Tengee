@@ -19,7 +19,7 @@
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>200</height>
+    <height>250</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -251,7 +251,7 @@ padding: -50px;</string>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>180</height>
+             <height>200</height>
             </size>
            </property>
            <property name="font">
