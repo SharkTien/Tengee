@@ -623,7 +623,7 @@ QPushButton:hover {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="home">
           <property name="styleSheet">
@@ -886,8 +886,8 @@ QScrollBar::add-page, QScrollBar::sub-page {
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>491</width>
-                   <height>207</height>
+                   <width>1177</width>
+                   <height>581</height>
                   </rect>
                  </property>
                  <property name="styleSheet">
@@ -950,8 +950,8 @@ Try adjusting your search. Here are some ideas:
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>452</width>
-                <height>560</height>
+                <width>1197</width>
+                <height>691</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1328,8 +1328,8 @@ QScrollBar::add-page, QScrollBar::sub-page {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>463</width>
-                <height>172</height>
+                <width>1215</width>
+                <height>623</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1531,11 +1531,12 @@ QPushButton:hover {
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>30</height>
+                   <height>60</height>
                   </size>
                  </property>
                  <property name="font">
                   <font>
+                   <pointsize>14</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -1552,34 +1553,55 @@ QPushButton:hover {
                 </widget>
                </item>
                <item row="1" column="0">
+                <widget class="QLabel" name="title_label_2">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>id:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="id">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>200</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">#id {
+	background: rgb(220, 220, 220);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true"/>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
                 <widget class="QLabel" name="title_label">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
                   <string>title: </string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="title_entry">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string notr="true"/>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="author_label">
-                 <property name="text">
-                  <string>author: </string>
-                 </property>
-                </widget>
-               </item>
                <item row="2" column="1">
-                <widget class="QLineEdit" name="author_entry">
+                <widget class="QLineEdit" name="title_entry">
                  <property name="enabled">
                   <bool>true</bool>
                  </property>
@@ -1593,6 +1615,11 @@ QPushButton:hover {
                </item>
                <item row="3" column="0">
                 <widget class="QLabel" name="description_label">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
                   <string>description: </string>
                  </property>
@@ -1613,6 +1640,11 @@ QPushButton:hover {
                </item>
                <item row="4" column="0">
                 <widget class="QLabel" name="thumbnail_label">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
                   <string>thumbnail:</string>
                  </property>
@@ -1706,6 +1738,11 @@ QPushButton:hover {
                    <height>80</height>
                   </size>
                  </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>8</pointsize>
+                  </font>
+                 </property>
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -1730,6 +1767,11 @@ QPushButton:hover {
                   </property>
                   <item>
                    <widget class="QLabel" name="price_label">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>Price (VNĐ): </string>
                     </property>
@@ -1740,6 +1782,11 @@ QPushButton:hover {
                   </item>
                   <item>
                    <widget class="QLabel" name="oldprice_label">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>Old Price (VNĐ):</string>
                     </property>
@@ -1793,6 +1840,14 @@ QPushButton:hover {
                       <height>16777215</height>
                      </size>
                     </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                      <weight>75</weight>
+                      <italic>false</italic>
+                      <bold>true</bold>
+                     </font>
+                    </property>
                     <property name="cursor">
                      <cursorShape>PointingHandCursor</cursorShape>
                     </property>
@@ -1813,21 +1868,16 @@ QPushButton:hover {
                  </layout>
                 </widget>
                </item>
-               <item row="8" column="1">
-                <spacer name="verticalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
                <item row="7" column="1">
                 <widget class="QPushButton" name="delete_btn">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                   <weight>75</weight>
+                   <italic>false</italic>
+                   <bold>true</bold>
+                  </font>
+                 </property>
                  <property name="cursor">
                   <cursorShape>PointingHandCursor</cursorShape>
                  </property>
@@ -1848,6 +1898,19 @@ QPushButton:hover {
                   <string>Delete</string>
                  </property>
                 </widget>
+               </item>
+               <item row="8" column="1">
+                <spacer name="verticalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </widget>

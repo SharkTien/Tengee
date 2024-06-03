@@ -167,7 +167,7 @@ class LoginScreen(QMainWindow):
             lines = f.readlines()
         if len(lines) > 1:
             self.NameBox_SI.setText(lines[0].rstrip())
-            self.PassBox_SI.setText(lines[2].rstrip())
+            self.PassBox_SI.setText(lines[1].rstrip())
             self.SavePass.setChecked(True)
 
     def maximize_restore(self):

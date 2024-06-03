@@ -1,5 +1,5 @@
 DATA_USERS_PATH = "./data/users/data_users.dat"
-COURSES_PATH = "./data/courses/data_courses.dat"
+DATA_COURSES_PATH = "./data/courses/data_courses.dat"
 DATA_AMMOUNT_USER = "./data/users/id_u.dat"
 DATA_AMMOUNT_COURSE = "./data/courses/id_c.dat"
 DATA_COURSES_OWNER = "./data/courses/courses_owner.dat"
@@ -51,19 +51,20 @@ class DataManager:
         """
         if type:
             data = open(DATA_USERS_PATH, 'r', encoding='utf-8').read().rstrip().split("\n")
-            data = [data[i:i+6] for i in range(0,len(data), 6)]
-            for item in data:
-                if item[4]:
-                    self.__data_users.append(Teacher(item[0], type, item[1], item[2], item[3], item[4], item[5].split("•")))
-                else:
-                    self.__data_users.append(Student(item[0], type, item[1], item[2], item[3], item[4], item[5].split("•")))
+            if data != [""]:
+                data = [data[i:i+6] for i in range(0,len(data), 6)]
+                for item in data:
+                    if item[4]:
+                        self.__data_users.append(Teacher(item[0], type, item[1], item[2], item[3], item[4], item[5].split("•")))
+                    else:
+                        self.__data_users.append(Student(item[0], type, item[1], item[2], item[3], item[4], item[5].split("•")))
         else:
-            data = open(COURSES_PATH, 'r', encoding="utf-8").read().rstrip().split("\n")
-            data = [data[i:i+7] for i in range(0, len(data), 7)]
-            for item in data:
-                self.__data_courses.append(Course(item[0], type, item[1], item[2], item[3], item[4], item[5], item[6]))
-            return
-        
+            data = open(DATA_COURSES_PATH, 'r', encoding="utf-8").read().rstrip().split("\n")
+            if data != [""]:
+                data = [data[i:i+7] for i in range(0, len(data), 7)]
+                for item in data:
+                    self.__data_courses.append(Course(item[0], type, item[1], item[2], item[3], item[4], item[5], item[6]))
+            
     def get_data(self, data_type):
         """
             get_data(data_type): return list of users or courses based on [data_type]
@@ -79,14 +80,24 @@ class DataManager:
         """
         if data_type:
             with open(DATA_USERS_PATH, 'w', encoding='utf-8') as f:
-                for i in list(data.keys()):
-                    f.write(f"{data[i][0]}\n")
-                    f.write(f"{i}\n")
-                    f.write(f"{data[i][1]}\n")
-                    f.write(f"{data[i][2]}\n")
-                    f.write(f"{data[i][3]}\n")
-                    f.write(f"{data[i][4]}\n")
-
+                for i in data:
+                    f.write(f"{i[0]}\n")
+                    f.write(f"{i[2]}\n")
+                    f.write(f"{i[3]}\n")
+                    f.write(f"{i[4]}\n")
+                    f.write(f"{i[5]}\n")
+                    f.write(f"{i[6]["bank_name"]}•{i[6]["cardholder"]}•{i[6]["cardnumber"]}\n")
+        else:
+            with open(DATA_COURSES_PATH, 'w', encoding='utf-8') as f:
+                for item in data:
+                    i = item.get_this_course()
+                    f.write(f"{i["id"]}\n")
+                    f.write(f"{i["title"]}\n")
+                    f.write(f"{i["author"]}\n")
+                    f.write(f"{i["description"]}\n")
+                    f.write(f"{i["price"]}\n")
+                    f.write(f"{i["oldprice"]}\n")
+                    f.write(f"{i["image"]}\n")
     def find_data(self, typeData, id):
         """
             class find_data: find data from data users [1] and data courses [0] based on [typeData] and [id].
@@ -96,7 +107,7 @@ class DataManager:
             items = []
             for item in self.__data_users:
                 items.append(item.get_this_user()["accountname"])
-            return [i for i in self.__data_users][items.index(id)]
+            return self.__data_users[items.index(id)]
         elif typeData == 1:
             for item in self.__data_users:
                 if int(item.get_this_user()["id"]) == id:
@@ -179,7 +190,13 @@ class User(Data):
             "username":self.__username,
             "role":self.__role
         }
+    
+    def change_password(self, data):
+        self.__password = data
 
+    def change_username(self, data):
+        self.__username = data
+        
 class Teacher(User):
     """
         class Teacher: generate a data storaging bank_account (-> Bank) then inherites id, data type, accountname, password, username and role
@@ -209,8 +226,8 @@ class Teacher(User):
         super().__init__(id, data_type, accountname, password, username, role)
         self.bank_account = Teacher.Bank(bank_account[0], bank_account[1], bank_account[2])
         self.data_courses = open(DATA_COURSES_OWNER, 'r').read().split("\n")[:-1]
-        self.data_courses = {self.data_courses[i]:[int(j) for j in self.data_courses[i+1].split()] for i in range(0,len(self.data_courses),2)}[id]
-    
+        self.data_courses = {self.data_courses[i]:[int(j) for j in self.data_courses[i+1].split()] for i in range(0,len(self.data_courses),2)}[str(id)]
+
     def get_bank(self):
         """
             get_bank(): return a dictionary of Bank information
