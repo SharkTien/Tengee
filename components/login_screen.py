@@ -3,7 +3,6 @@ import time
 from PyQt5 import QtCore, QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow
-from data_init import DataManager
 
 USER_PATH = "./data/users/users.dat"
 UI_PATH = "./ui_files/Login_gui.ui"
@@ -43,7 +42,7 @@ class LoginScreen(QMainWindow):
 
 
     """
-    switch_window_home = QtCore.pyqtSignal(int, list)
+    switch_window_home = QtCore.pyqtSignal(object, object)
     switch_window_quit = QtCore.pyqtSignal()
     enabled = "qwertyuiopasdfghjklzxcvbnm1234567890 @/._"
     GLOBAL_STATE = False
@@ -204,53 +203,50 @@ class LoginScreen(QMainWindow):
 
     def get_login_data(self):
         """
-        get_data() -> list: get data from file data. Format: [{'accountname':['password','username',bool]]
+        get_data() -> list: get data from file data. Return a list of User object
         """
-        data = dict()
-        for item in self.datamanager.get_data(1):
-            p = item.get_this_user()
-            data[p[0]] = p[1]
-        return data
+        return self.datamanager.get_data(1)
     
     def check_SI(self):
-        self.data = self.get_login_data()
         """
         check_SI(): Function check if the information login is valid
         """
-        username = self.NameBox_SI.text()
+        self.data = self.get_login_data()
+        accountname = self.NameBox_SI.text()
         password = self.PassBox_SI.text()
+        fa = None
 
-        if len(password) * len(username) == 0:
+        if len(password) * len(accountname) == 0:
             self.frameError.show()
             self.Error_Content.setText("Chưa điền đầy đủ thông tin đăng nhập")
         else:
             self.frameError.hide()
-            if username not in list(self.data.keys()):
+            if accountname not in [i.get_this_user()['accountname'] for i in self.data]:
                 self.frameError.show()
                 self.Error_Content.setText("Tên tài khoản không tồn tại. Hãy nhập lại.")
             else:
-                if self.data[username][0] != password:
+                fa = self.datamanager.find_data(1, accountname)
+                fa_meta = fa.get_this_user()
+                if fa_meta["password"] != password:
                     self.frameError.show()
                     self.Error_Content.setText("Mật khẩu không chính xác. Hãy nhập lại.")
                 else:
-                    name, role = [self.data[username][1], int(self.data[username][2])]
-                
                     with open(USER_PATH, "w", encoding="utf-8") as f:
                         if self.SavePass.isChecked():
-                            f.write(f"{username}\n")
-                            f.write(f"{name}\n")
-                            f.write(f"{password}\n")
-                            f.write(f"{str(role)}")
+                            f.write(f"{fa_meta["accountname"]}\n")
+                            f.write(f"{fa_meta["password"]}\n")
+                            f.write(f"{fa_meta["username"]}\n")
+                            f.write(f"{fa_meta["role"]}")
                     
-                    self.open_home(role, [username]+self.data[username])
+                    self.open_home(fa)
 
                 QtCore.QTimer.singleShot(3000, lambda: self.frameError.hide())
 
-    def open_home(self, role, data):
+    def open_home(self, data):
         """
             open_home(ui, role, data): open home window
         """
-        self.switch_window_home.emit(role, data)
+        self.switch_window_home.emit(data, self.datamanager)
 
     def check_SU(self):
         """
@@ -268,7 +264,7 @@ class LoginScreen(QMainWindow):
             self.Note_Name.show()
             check = False
         else:
-            if username in list(self.data.keys()):
+            if username in [i.get_this_user()['accountname'] for i in self.data]:
                 self.Note_Name.show()
                 check = False
             else:
@@ -296,7 +292,7 @@ class LoginScreen(QMainWindow):
 
         if check:
             role = 1 if self.teacher.isChecked() else 0
-            self.datamanager.insert_data(1, [username, password, name, role])
+            self.datamanager.insert_data(1, [username, password, name, role, ['','','']])
             self.NameBox_SI.clear()
             self.PassBox_SI.clear()
             self.SavePass.setChecked(False)

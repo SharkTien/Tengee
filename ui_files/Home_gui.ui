@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1341</width>
-    <height>686</height>
+    <width>1500</width>
+    <height>800</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1500</width>
+    <height>800</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -21,10 +27,7 @@
 	border-radius: 10px;
 }</string>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <property name="spacing">
-     <number>0</number>
-    </property>
+   <layout class="QGridLayout" name="gridLayout_3">
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -37,7 +40,7 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item>
+    <item row="0" column="0">
      <widget class="QFrame" name="title_bar">
       <property name="maximumSize">
        <size>
@@ -180,6 +183,9 @@ image: url(:/icons/logo.png);</string>
                  <height>30</height>
                 </size>
                </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	border-radius: 15px;
@@ -214,6 +220,9 @@ QPushButton:hover {
                  <height>30</height>
                 </size>
                </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	background: transparent;
@@ -246,6 +255,9 @@ QPushButton:hover {
                  <height>30</height>
                 </size>
                </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="styleSheet">
                 <string notr="true">#btn_minimize {
 	border-radius: 15px;
@@ -272,7 +284,7 @@ QPushButton:hover {
       </layout>
      </widget>
     </item>
-    <item>
+    <item row="1" column="0">
      <widget class="QFrame" name="mainlayout">
       <property name="minimumSize">
        <size>
@@ -353,6 +365,24 @@ QPushButton:hover {
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QGridLayout" name="gridLayout_2">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <property name="horizontalSpacing">
+                 <number>0</number>
+                </property>
+                <property name="verticalSpacing">
+                 <number>10</number>
+                </property>
                 <item row="3" column="0">
                  <widget class="QLabel" name="rolelabel">
                   <property name="styleSheet">
@@ -366,7 +396,10 @@ QPushButton:hover {
 }</string>
                   </property>
                   <property name="text">
-                   <string>TextLabel</string>
+                   <string>Role</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
                 </item>
@@ -378,7 +411,10 @@ QPushButton:hover {
 }</string>
                   </property>
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Username:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Username&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
                 </item>
@@ -401,7 +437,6 @@ QPushButton:hover {
                   </property>
                   <property name="styleSheet">
                    <string notr="true">#avatar {
-	overflow: hidden;
 	image: url(:/icons/user.png);
 }</string>
                   </property>
@@ -588,7 +623,7 @@ QPushButton:hover {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="home">
           <property name="styleSheet">
@@ -661,7 +696,7 @@ QPushButton {
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="webdevelopment">
+               <widget class="QPushButton" name="psychology">
                 <property name="maximumSize">
                  <size>
                   <width>500</width>
@@ -759,6 +794,9 @@ QPushButton {
                   <normalon>:/icons/search-interface-symbol.png</normalon>
                  </iconset>
                 </property>
+                <property name="shortcut">
+                 <string>Return</string>
+                </property>
                </widget>
               </item>
              </layout>
@@ -848,8 +886,8 @@ QScrollBar::add-page, QScrollBar::sub-page {
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>1018</width>
-                   <height>478</height>
+                   <width>491</width>
+                   <height>207</height>
                   </rect>
                  </property>
                  <property name="styleSheet">
@@ -863,6 +901,32 @@ QScrollBar::add-page, QScrollBar::sub-page {
 	margin-bottom: 20px;
 }</string>
                  </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_5">
+                  <item>
+                   <widget class="QLabel" name="noanswer">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>13</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Sorry, we couldn't find any results for wdqwd
+
+Try adjusting your search. Here are some ideas:
+
+ •   Make sure all words are spelled correctly
+ •   Try different search terms
+ •   Try more general search terms</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </widget>
               </item>
@@ -886,8 +950,8 @@ QScrollBar::add-page, QScrollBar::sub-page {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1038</width>
-                <height>583</height>
+                <width>452</width>
+                <height>560</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1046,7 +1110,7 @@ QPushButton:hover {
                <item row="9" column="0">
                 <widget class="QLabel" name="creditCardLabel">
                  <property name="text">
-                  <string>Credit card: </string>
+                  <string>Card number: </string>
                  </property>
                 </widget>
                </item>
@@ -1090,6 +1154,9 @@ QPushButton:hover {
                    <height>16777215</height>
                   </size>
                  </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="layoutDirection">
                   <enum>Qt::LeftToRight</enum>
                  </property>
@@ -1098,6 +1165,687 @@ QPushButton:hover {
                  </property>
                  <property name="text">
                   <string>Save</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="Teacherpage">
+          <property name="styleSheet">
+           <string notr="true">#Teacherpage {
+	background: transparent;
+}</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QFrame" name="control_btn">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>80</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+height: 30px;
+border: 2px solid #111;
+border-radius: 12px;
+color: #111;
+font: bold;
+font-size: 13px;
+}
+
+QPushButton:hover {
+	background: #c09054;
+	color: #fff;
+	border: transparent;
+}
+</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>20</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="titl_create_course">
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>MANAGE YOUR COURSES HERE</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>573</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="create_course_btn">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Add more</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QScrollArea" name="tc_scroll">
+             <property name="styleSheet">
+              <string notr="true">QScrollArea {
+	border-radius: 10px;
+	background-color: transparent;
+	outline: 0;
+} 
+QScrollArea::item { 
+	margin: 20px;
+	background-color: transparent;
+	border: 0px solid black;
+}
+
+QScrollBar{
+	background : rgb(255, 255, 255);	
+}
+
+QScrollBar::handle{
+	background : rgb(158, 158, 158);
+	border-radius: 5px;
+	margin: 3px 3px 3px 3px;
+}
+
+QScrollBar::handle::pressed{
+	background : rgb(85, 85, 85);
+}
+
+QScrollBar::add-line {
+	height: 0px;
+}
+
+QScrollBar::sub-line {
+	height: 0px;
+}
+
+QScrollBar::add-page, QScrollBar::sub-page {
+	height: 0px;
+}</string>
+             </property>
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="tc_content">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>463</width>
+                <height>172</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#homecontents {
+	background: transparent;
+	border: none;
+}
+
+#homecontents::item{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_9">
+               <property name="spacing">
+                <number>10</number>
+               </property>
+               <property name="topMargin">
+                <number>20</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="no_created_found">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>100</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>16</pointsize>
+                   <weight>50</weight>
+                   <italic>false</italic>
+                   <bold>false</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="text">
+                  <string>You have not created any courses yet
+Create one right now?
+</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item alignment="Qt::AlignHCenter">
+                <widget class="QPushButton" name="create_course">
+                 <property name="minimumSize">
+                  <size>
+                   <width>150</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>200</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <italic>false</italic>
+                   <bold>true</bold>
+                   <kerning>false</kerning>
+                  </font>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+height: 30px;
+border: 2px solid #111;
+border-radius: 12px;
+color: #111;
+}
+
+QPushButton:hover {
+	background: #c09054;
+	color: #fff;
+	border: transparent;
+}
+</string>
+                 </property>
+                 <property name="text">
+                  <string>Add a course</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="editpage">
+          <layout class="QVBoxLayout" name="verticalLayout_10">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QScrollArea" name="edit_scroll">
+             <property name="styleSheet">
+              <string notr="true">QScrollArea {
+	border-radius: 10px;
+	background-color: rgba(255, 255, 255, 50);
+	outline: 0;
+} 
+QScrollArea::item { 
+	margin: 20px;
+	border: 0px solid black;
+}
+
+QScrollBar{
+	background : rgb(255, 255, 255);	
+}
+
+QScrollBar::handle{
+	background : rgb(158, 158, 158);
+	border-radius: 5px;
+	margin: 3px 3px 3px 3px;
+}
+
+QScrollBar::handle::pressed{
+	background : rgb(85, 85, 85);
+}
+
+QScrollBar::add-line {
+	height: 0px;
+}
+
+QScrollBar::sub-line {
+	height: 0px;
+}
+
+QScrollBar::add-page, QScrollBar::sub-page {
+	height: 0px;
+}</string>
+             </property>
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="edit_content">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1215</width>
+                <height>709</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit {
+	padding: 5px;
+	border: 1px solid transparent;
+	border-radius: 9px;
+}
+
+QPushButton {
+	font: bold;
+	border: 1px solid #111;
+	border-radius: 15px;
+	padding: 10px;
+}
+
+QPushButton:hover {
+	color: #fff;
+	background: #c09054;
+	border: transparent;
+}</string>
+              </property>
+              <layout class="QFormLayout" name="formLayout_3">
+               <item row="0" column="0">
+                <widget class="QLabel" name="edit_title_main">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">#label {
+	font-size: 24px;
+	font: bold;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>EDIT COURSE</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="title_label">
+                 <property name="text">
+                  <string>title: </string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="title_entry">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="text">
+                  <string notr="true"/>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="author_label">
+                 <property name="text">
+                  <string>author: </string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="author_entry">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="text">
+                  <string notr="true"/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="description_label">
+                 <property name="text">
+                  <string>description: </string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="description_entry">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>100</height>
+                  </size>
+                 </property>
+                 <property name="echoMode">
+                  <enum>QLineEdit::Normal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="thumbnail_label">
+                 <property name="text">
+                  <string>thumbnail:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QFrame" name="frame_2">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                  <property name="spacing">
+                   <number>30</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>20</number>
+                  </property>
+                  <item>
+                   <widget class="QLineEdit" name="thumbnail_entry">
+                    <property name="maximumSize">
+                     <size>
+                      <width>500</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="url_thumbnail_btn">
+                    <property name="maximumSize">
+                     <size>
+                      <width>250</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
+                    <property name="statusTip">
+                     <string>0</string>
+                    </property>
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">#url_thumbnail_btn {
+	image: url(:/icons/folder_open.png);
+	background: #fff;
+	border: none;
+}
+</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_5">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QFrame" name="price_frame">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>80</height>
+                  </size>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_7">
+                  <property name="spacing">
+                   <number>80</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>100</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="price_label">
+                    <property name="text">
+                     <string>Price (VNĐ): </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="price"/>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="oldprice_label">
+                    <property name="text">
+                     <string>Old Price (VNĐ):</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="oldprice">
+                    <property name="clearButtonEnabled">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QFrame" name="frame">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>80</height>
+                  </size>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_9">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="save_btn">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
+                    <property name="statusTip">
+                     <string>0</string>
+                    </property>
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="text">
+                     <string>Save</string>
+                    </property>
+                    <property name="autoDefault">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="8" column="1">
+                <spacer name="verticalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="7" column="1">
+                <widget class="QPushButton" name="delete_btn">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">#delete_btn {
+	background: rgb(255,255,255);
+	color: rgb(255,0 ,0);
+	border: none;
+	border-radius: 13px;
+}
+
+#delete_btn:hover {
+	background:  #c09054;
+	color: rgb(255,255,255)
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Delete</string>
                  </property>
                 </widget>
                </item>

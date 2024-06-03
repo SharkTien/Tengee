@@ -48,15 +48,11 @@ class Controller:
         self.login.show()
         self.login.raise_()
 
-    def show_home(self, role=None, data=None):
+    def show_home(self, data=None, datamanager=None):
         """
             show_home(self, role, data): show home screen after sign in succession
         """
-        if role is not None:
-            self.role = role
-        if data is not None:
-            self.data = data
-        self.home = home_screen.HomeScreen(self.role, self.data)
+        self.home = home_screen.HomeScreen(data, datamanager)
         self.home.switch_window_quit.connect(self.show_quit)
         self.home.switch_window_login.connect(self.close_home)
         self.home.switch_window_login.connect(self.show_login)

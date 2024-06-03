@@ -23,55 +23,18 @@ class HomeScreen(QMainWindow):
     """
     switch_window_quit = QtCore.pyqtSignal()
     switch_window_login = QtCore.pyqtSignal()
-    
-    #========================= ClASS CARD ======================== #
     class CardFrame(QWidget):
         """
         class CardFrame: Generate UI Card for fetching data
         method:
             __init__(self, *args, **kwargs)
         """
-        def __init__(self, ui, data, *args, **kwargs):
+        def __init__(self, *args, **kwargs):
             """
             initiate class with attributes from class QWidget and load UI file
             """
             super().__init__(*args, **kwargs)
             uic.loadUi(CARD_PATH, self)
-            self.ui = ui
-            self.data = data
-            self.connect_btn()
-            if self.data:
-                self.cardimg.setStyleSheet(f"""
-                            border-image: url(./ui_files/src/courses/{self.data['image']});
-                            border-radius: 10px;
-                            padding: -50px;
-                                        """)
-            self.title.setText(self.data['title'])
-            self.author.setText(self.data['author'])
-            self.description.setText(self.data['description'])
-            self.price.setText(self.data['price'])
-            self.oldprice.setText(self.data['oldprice'])
-        
-        def connect_btn(self):
-            """
-                connect_btn(ui): initate function for buttons
-            """
-            self.edit_btn.clicked.connect(lambda: self.edit_course())
-            self.ui.save_btn.clicked.connect(lamba: self.save_data())
-
-        def edit_course(self):
-            """
-                edit_course(): link to the editcourse tab and change data course of current card
-            """
-            self.ui.tabs.setCurrentIndex(3)
-            self.ui.title_entry.setText(self.data["title"])
-            self.ui.author_entry.setText(self.data["author"])
-            self.ui.description_entry.setText(self.data["description"])
-            self.ui.thumbnail_entry.setText(self.data["image"])
-            self.ui.price.setText(self.data["price"])
-            self.ui.oldprice.setText(self.data["oldprice"])
-
-    #================== END CLASS CARD =======================================#
 
     def __init__(self, data, datamanager):
         """
@@ -259,10 +222,18 @@ class UIFunction(HomeScreen):
         for item in ui.data_courses:
             course = item.get_this_course()
             if keyword.lower() in ' '.join([course['title'].lower(),course['description'].lower(), course['author'].lower()]):
-                ui.Card = ui.CardFrame(ui, course)
-                ui.Card.enroll_btn.hide()
-                ui.Card.edit_btn.hide()
+                ui.Card = ui.CardFrame()
                 current_layout.addWidget(ui.Card)
+                ui.Card.cardimg.setStyleSheet(f"""
+                                border-image: url(./ui_files/src/courses/{course['image']});
+                                border-radius: 10px;
+                                padding: -50px;
+                                            """)
+                ui.Card.title.setText(course['title'])
+                ui.Card.author.setText(course['author'])
+                ui.Card.description.setText(course['description'])
+                ui.Card.price.setText(course['price'])
+                ui.Card.oldprice.setText(course['oldprice'])
         if len(current_layout) == 1:
             ui.noanswer.show()
             ui.noanswer.setText(f"Sorry, we couldn't find any results for '{keyword}'\n\nTry adjusting your search. Here are some ideas:\n\n •   Make sure all words are spelled correctly\n •   Try different search terms\n •   Try more general search terms")
@@ -303,9 +274,6 @@ class TeacherUIFunctions(UIFunction):
         self.load_created_courses(ui)
 
     def connect_teacher_btn(self, ui):
-        """
-            connect_teacher_btn(self, ui): initiate function for basic teacher's buttons
-        """
         ui.addCourses_btn.clicked.connect(lambda: ui.tabs.setCurrentIndex(2))
     
     def load_created_courses(self, ui):
@@ -323,15 +291,36 @@ class TeacherUIFunctions(UIFunction):
         
         for i in ui.data.data_courses:     
             item = ui.datamanager.find_data(0, i).get_this_course()
-            ui.Card = ui.CardFrame(ui, item)
-            ui.Card.enroll_btn.hide()
-            ui.Card.more_information.hide()
+            ui.Card = ui.CardFrame()
             current_layout.addWidget(ui.Card)
-
+            ui.Card.cardimg.setStyleSheet(f"""
+                            border-image: url(./ui_files/src/courses/{item['image']});
+                            border-radius: 10px;
+                            padding: -50px;
+                                        """)
+            ui.Card.title.setText(item['title'])
+            ui.Card.author.setText(item['author'])
+            ui.Card.description.setText(item['description'])
+            ui.Card.price.setText(item['price'])
+            ui.Card.oldprice.setText(item['oldprice'])
+            ui.Card.enroll_btn.setText("Edit")
+            ui.Card.enroll_btn.clicked.connect(lambda: self.editCourse(ui, ui.Card, item))
         current_layout.addStretch()
     
         if len(current_layout) == 3:
             ui.no_created_found.show()
             ui.create_course.show()
             ui.create_course_btn.hide()
+    def editCourse(self, ui, card, data):
+        ui.tabs.setCurrentIndex(3)
+        if data:
+            ui.title_entry.setText(data["title"])
+            ui.author_entry.setText(data["author"])
+            ui.description_entry.setText(data["description"])
+            ui.thumbnail_entry.setText(data["image"])
+            ui.price.setText(data["price"])
+            ui.oldprice.setText(data["oldprice"])
+
+        ui.save_btn.clicked.connect(lambda: self.edit_course_information(ui.Card))
+            
     
