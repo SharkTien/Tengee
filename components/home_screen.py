@@ -358,7 +358,7 @@ class TeacherUIFunctions(UIFunction):
         ui.thumbnail_entry.clear()
         ui.price.clear()
         ui.oldprice.clear()
-
+        ui.delete_btn.hide()
 
     def load_created_courses(self, ui):
         """
@@ -390,7 +390,7 @@ class TeacherUIFunctions(UIFunction):
         """
         title = ui.title_entry.text()
         username = ui.username.text()
-        description = ui.description_entry.text()
+        description = ui.description_entry.toPlainText()
         price = ui.price.text()
         oldprice = ui.oldprice.text()
         thumbnail = ui.thumbnail_entry.text()
@@ -410,17 +410,21 @@ class TeacherUIFunctions(UIFunction):
             QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setText("Save"))
             QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setDisabled(False))
         else:
-            ui.datamanager.insert_data(0, [title if title else "Untitle Course", username, description, 
+            try:
+                ui.datamanager.insert_data(0, [title if title else "Untitle Course", username, description, 
                                            price if price else "0", oldprice, thumbnail.split('/')[-1] if thumbnail else "tengee.png", ui.data.id])
-            if thumbnail:
-                shutil.copy(thumbnail, "./ui_files/src/courses")
-            ui.save_btn.setDisabled(True)
-            ui.save_btn.setText("Created")
-            QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setText("Save"))
-            QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setDisabled(False))
-            ui.data.data_courses.append(len(ui.datamanager.get_data(0)))
-            self.load_created_courses(ui)
-            ui.tabs.setCurrentIndex(2)
+                if thumbnail:
+                    shutil.copy(thumbnail, "./ui_files/src/courses")
+                ui.save_btn.setDisabled(True)
+                ui.save_btn.setText("Created")
+                QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setText("Save"))
+                QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setDisabled(False))
+                ui.data.data_courses.append(len(ui.datamanager.get_data(0)))
+                self.load_created_courses(ui)
+                ui.tabs.setCurrentIndex(2)
+            except:
+                ui.tabs.setCurrentIndex(2)
+            ui.delete_btn.show()
 
     def delete_courses(self, ui):
         if self.warn_close_frame(ui):

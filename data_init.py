@@ -35,18 +35,18 @@ class DataManager:
                 id = 1
             open(DATA_COURSES_OWNER, 'a+').write("%s\n%s\n" % (id, ""))
             if data[2]:
-                new_data = Teacher(id, type, data[0], data[1], data[2], data[3])
+                new_data = Teacher(id, type, data[0], data[1], data[2], data[3]) #id, type=1, accountname, password, username, role
             else:
-                new_data = Student(id, type, data[0], data[1], data[2], data[3])
+                new_data = Student(id, type, data[0], data[1], data[2], data[3]) #id, type=1, accountname, password, username, role
             self.__data_users.append(new_data)
             open(DATA_AMMOUNT_USER, 'w').write(str(id))
-            open(DATA_USERS_PATH,'a+',encoding='utf-8').write("%s\n%s\n%s\n%s\n%s\n%s\n" % (id, data[0], data[1], data[2], data[3]))
+            open(DATA_USERS_PATH,'a+',encoding='utf-8').write("%s\n%s\n%s\n%s\n%s\n" % (id, data[0], data[1], data[2], data[3]))
         else:
             try:
                 id = int(open(DATA_AMMOUNT_COURSE, 'r').read().rstrip()[0]) + 1
             except:
                 id = 1
-            new_data = Course(id, type, data[0], data[1], data[2], data[3], data[4], data[5])
+            new_data = Course(id, type, data[0], data[1], data[2], data[3], data[4], data[5]) 
             self.__data_courses.append(new_data)
             open(DATA_AMMOUNT_COURSE, 'w').write(str(id))
             open(DATA_COURSES_PATH,'a+',encoding='utf-8').write("%s\n%s\n%s\n%s\n%s\n%s\n%s\n" % (id, data[0], data[1], data[2], data[3], data[4], data[5]))
