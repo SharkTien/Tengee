@@ -1,6 +1,8 @@
+import os 
 from PyQt5 import QtCore, uic, sip
-from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QFileDialog
 from PyQt5.QtCore import Qt
+import shutil
 
 from utils.config import SCREEN_HEIGHT, SCREEN_WIDTH
 
@@ -65,6 +67,7 @@ class HomeScreen(QMainWindow):
                 edit_course(): link to the editcourse tab and change data course of current card
             """
             self.ui.tabs.setCurrentIndex(3)
+            self.ui.edit_title_main.setText("Edit courses page")
             self.ui.id.setText(self.meta_data["id"])
             self.ui.title_entry.setText(self.meta_data["title"])
             self.ui.description_entry.setText(self.meta_data["description"])
@@ -227,7 +230,7 @@ class UIFunction(HomeScreen):
                     data = []
                     for item in d:
                         i = item.get_this_user()
-                        data.append([i["id"], 1, i["accountname"], i["password"], i["username"], i["role"], item.get_bank()])
+                        data.append([i["id"], 1, i["accountname"], i["password"], i["username"], i["role"]])
                     ui.datamanager.update_data(1, data)
                     ui.Save.setDisabled(True)
                     ui.Save.setText("Saved")
@@ -253,7 +256,7 @@ class UIFunction(HomeScreen):
                 data = []
                 for item in d:
                     i = item.get_this_user()
-                    data.append([i["id"], 1, i["accountname"], i["password"], i["username"], i["role"], item.get_bank()])
+                    data.append([i["id"], 1, i["accountname"], i["password"], i["username"], i["role"]])
                 ui.datamanager.update_data(1, data)
                 ui.Save.setDisabled(True)
                 ui.Save.setText("Saved")
@@ -337,8 +340,25 @@ class TeacherUIFunctions(UIFunction):
             connect_teacher_btn(self, ui): initiate function for basic teacher's buttons
         """
         ui.addCourses_btn.clicked.connect(lambda: ui.tabs.setCurrentIndex(2))
-        ui.save_btn.clicked.connect(lambda: self.save_data(ui))
+        ui.addCourses_btn.clicked.connect(lambda: self.load_created_courses(ui))
+        ui.save_btn.clicked.connect(lambda: self.save_data(ui, 0))
         ui.url_thumbnail_btn.clicked.connect(lambda: self.open_thumbnail_file(ui))
+        ui.delete_btn.clicked.connect(lambda: self.delete_courses(ui))
+        ui.create_course.clicked.connect(lambda: self.add_courses(ui))
+        ui.create_course_btn.clicked.connect(lambda: self.add_courses(ui))
+
+    def add_courses(self, ui):
+        """
+        add_courses(self, ui): function open edit tab and run addcourse function
+        """
+        ui.tabs.setCurrentIndex(3)
+        ui.edit_title_main.setText("Create your awesome courses with us")
+        ui.title_entry.clear()
+        ui.description_entry.clear()
+        ui.thumbnail_entry.clear()
+        ui.price.clear()
+        ui.oldprice.clear()
+
 
     def load_created_courses(self, ui):
         """
@@ -359,31 +379,68 @@ class TeacherUIFunctions(UIFunction):
             ui.Card.more_information.hide()
             current_layout.addWidget(ui.Card)
 
-        current_layout.addStretch()
-    
-        if len(current_layout) == 3:
+        if len(current_layout) == 2:
             ui.no_created_found.show()
             ui.create_course.show()
             ui.create_course_btn.hide()
     
-    def save_data(self, ui):
+    def save_data(self, ui, create):
         """
         save_data(ui): save current edited data in course edit page
         """
-        d = ui.datamanager.get_data(0)
-        for item in d:
-            if item.id == ui.id.text():
-                item.title = ui.title_entry.text()
-                item.author = ui.username.text()
-                item.description = ui.description_entry.text()
-                item.price = ui.price.text()
-                item.oldprice = ui.oldprice.text()
-                item.image = ui.thumbnail_entry.text()
-        ui.datamanager.update_data(0, d)
-        ui.save_btn.setDisabled(True)
-        ui.save_btn.setText("Saved")
-        QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setText("Save"))
-        QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setDisabled(False))
-        
+        title = ui.title_entry.text()
+        username = ui.username.text()
+        description = ui.description_entry.text()
+        price = ui.price.text()
+        oldprice = ui.oldprice.text()
+        thumbnail = ui.thumbnail_entry.text()
+        if create:
+            d = ui.datamanager.get_data(0)
+            for item in d:
+                if item.id == ui.id.text():
+                    item.title = title
+                    item.author = username
+                    item.description = description
+                    item.price = price if price else 0
+                    item.oldprice = oldprice
+                    item.image = thumbnail
+            ui.datamanager.update_data(0, d)
+            ui.save_btn.setDisabled(True)
+            ui.save_btn.setText("Saved")
+            QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setText("Save"))
+            QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setDisabled(False))
+        else:
+            ui.datamanager.insert_data(0, [title if title else "Untitle Course", username, description, 
+                                           price if price else "0", oldprice, thumbnail.split('/')[-1] if thumbnail else "tengee.png", ui.data.id])
+            if thumbnail:
+                shutil.copy(thumbnail, "./ui_files/src/courses")
+            ui.save_btn.setDisabled(True)
+            ui.save_btn.setText("Created")
+            QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setText("Save"))
+            QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setDisabled(False))
+            ui.data.data_courses.append(len(ui.datamanager.get_data(0)))
+            self.load_created_courses(ui)
+            ui.tabs.setCurrentIndex(2)
+
+    def delete_courses(self, ui):
+        if self.warn_close_frame(ui):
+            self.load_created_courses(ui)
+        ui.tabs.setCurrentIndex(2)
+            
+
+    def warn_close_frame(self, ui):
+        msg = QMessageBox.question(
+            ui, 
+            "Delete course",
+            "Confirm delete this courses? You cannot backup this action",
+            QMessageBox.Yes | QMessageBox.Cancel,
+            QMessageBox.Cancel,
+        )
+        return msg == QMessageBox.Yes
+    
     def open_thumbnail_file(self, ui):
-        pass
+        HOME_PATH = os.path.join(os.path.join(os.environ["USERPROFILE"]), "Desktop")
+        file_path = QFileDialog.getOpenFileName(ui, "Open file", HOME_PATH, "*.png;*.jfif;*.pjpeg;*.jpeg;*.pjp;*.jpg;*.heic;*.webp")
+        if file_path[0]:
+            ui.thumbnail_entry.setText(file_path[0])
+            

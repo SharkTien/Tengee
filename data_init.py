@@ -35,13 +35,27 @@ class DataManager:
                 id = 1
             open(DATA_COURSES_OWNER, 'a+').write("%s\n%s\n" % (id, ""))
             if data[2]:
-                new_data = Teacher(id, type, data[0], data[1], data[2], data[3], data[4])
+                new_data = Teacher(id, type, data[0], data[1], data[2], data[3])
             else:
-                new_data = Student(id, type, data[0], data[1], data[2], data[3], data[4])
+                new_data = Student(id, type, data[0], data[1], data[2], data[3])
             self.__data_users.append(new_data)
             open(DATA_AMMOUNT_USER, 'w').write(str(id))
-            open(DATA_USERS_PATH,'a+',encoding='utf-8').write("%s\n%s\n%s\n%s\n%s\n%s\n" % (id, data[0], data[1], data[2], data[3], "•".join(data[4])))
-        return
+            open(DATA_USERS_PATH,'a+',encoding='utf-8').write("%s\n%s\n%s\n%s\n%s\n%s\n" % (id, data[0], data[1], data[2], data[3]))
+        else:
+            try:
+                id = int(open(DATA_AMMOUNT_COURSE, 'r').read().rstrip()[0]) + 1
+            except:
+                id = 1
+            new_data = Course(id, type, data[0], data[1], data[2], data[3], data[4], data[5])
+            self.__data_courses.append(new_data)
+            open(DATA_AMMOUNT_COURSE, 'w').write(str(id))
+            open(DATA_COURSES_PATH,'a+',encoding='utf-8').write("%s\n%s\n%s\n%s\n%s\n%s\n%s\n" % (id, data[0], data[1], data[2], data[3], data[4], data[5]))
+            d = open(DATA_COURSES_OWNER,'r').read().split("\n")[:-1]
+            d = {d[i]:d[i+1].split() for i in range(0, len(d), 2)}
+            d[str(data[6])].append(str(id))
+            with open(DATA_COURSES_OWNER, 'w') as f:
+                for key,value in d.items():
+                    f.write("%s\n%s\n" % (key, " ".join(value)))
 
     def fetch_data(self, type):
         """
@@ -55,9 +69,9 @@ class DataManager:
                 data = [data[i:i+6] for i in range(0,len(data), 6)]
                 for item in data:
                     if item[4]:
-                        self.__data_users.append(Teacher(item[0], type, item[1], item[2], item[3], item[4], item[5].split("•")))
+                        self.__data_users.append(Teacher(item[0], type, item[1], item[2], item[3], item[4]))
                     else:
-                        self.__data_users.append(Student(item[0], type, item[1], item[2], item[3], item[4], item[5].split("•")))
+                        self.__data_users.append(Student(item[0], type, item[1], item[2], item[3], item[4]))
         else:
             data = open(DATA_COURSES_PATH, 'r', encoding="utf-8").read().rstrip().split("\n")
             if data != [""]:
@@ -86,7 +100,6 @@ class DataManager:
                     f.write(f"{i[3]}\n")
                     f.write(f"{i[4]}\n")
                     f.write(f"{i[5]}\n")
-                    f.write(f"{i[6]["bank_name"]}•{i[6]["cardholder"]}•{i[6]["cardnumber"]}\n")
         else:
             with open(DATA_COURSES_PATH, 'w', encoding='utf-8') as f:
                 for item in data:
@@ -116,6 +129,25 @@ class DataManager:
            for item in self.__data_courses:
                 if int(item.get_this_course()["id"]) == id:
                     return item
+    
+    def delete(self, data, type):
+        """
+           delete: function delete account or course based on [type] (bool)
+        """
+        if type:
+            d = []
+            for item in self.get_data(1):
+                if item.id != data.id:
+                    i = item.get_this_user()
+                    d.append([i["id"], 1, i["accountname"], i["password"], i["username"], i["role"]])
+            self.update_data(1, data)
+        else:
+            d = []
+            for item in self.get_data(0):
+                if item.id != data.id:
+                    i = item.get_this_course()
+                    d.append([i["id"], 1, i["title"], i["author"], i["description"], i["price"], i["oldprice"], i["image"]])
+
 class Data:
     """
         class Data: generate a data storaging id and data_type, which is the familiar attributes of Course and User data.
@@ -172,12 +204,16 @@ class User(Data):
     def __init__(self, id, data_type, accountname, password, username, role):
         """
             __init__(id, data_type, accountname, password, username, role): initiates original variables and inherites variables from parent classes
+            self.data_courses: storing the courses created or purchased by users
         """
         super().__init__(id, data_type)
         self.__accountname = accountname
         self.__password = password
         self.__username = username
         self.__role = role
+        self.data_courses = open(DATA_COURSES_OWNER, 'r').read().split("\n")[:-1]
+        self.data_courses = {self.data_courses[i]:[int(j) for j in self.data_courses[i+1].split()] for i in range(0,len(self.data_courses),2)}[str(id)]
+
         
     def get_this_user(self):
         """
@@ -201,7 +237,7 @@ class Teacher(User):
     """
         class Teacher: generate a data storaging bank_account (-> Bank) then inherites id, data type, accountname, password, username and role
         method: 
-            __init__(id, data_type, accountname, password, username, role, bank_account)
+            __init__(id, data_type, accountname, password, username, role)
             
             get_bank()
     """
@@ -215,46 +251,42 @@ class Teacher(User):
             """
                 __init__(bank_name, cardholder, cardnumber): initiate attributes
             """
-            self.bank_name = bank_name
-            self.cardholder = cardholder
-            self.cardnumber = cardnumber
+            self.__bank_name = bank_name
+            self.__cardholder = cardholder
+            self.__cardnumber = cardnumber
 
-    def __init__(self, id, data_type, accountname, password, username, role, bank_account):
+        def get_this_bank(self):
+            """
+                get_bank(): return a dictionary of Bank information
+            """
+            return {
+                "bank_name": self.__bank_name,
+                "cardholder": self.__cardholder,
+                "cardnumber": self.__cardnumber
+            }
+        
+    def __init__(self, id, data_type, accountname, password, username, role):
         """
-            __init__(id, data_type, accountname, password, username, role, bank_account): inherites and initiates attributes
+            __init__(id, data_type, accountname, password, username, role): inherites and initiates attributes
         """
         super().__init__(id, data_type, accountname, password, username, role)
-        self.bank_account = Teacher.Bank(bank_account[0], bank_account[1], bank_account[2])
-        self.data_courses = open(DATA_COURSES_OWNER, 'r').read().split("\n")[:-1]
-        self.data_courses = {self.data_courses[i]:[int(j) for j in self.data_courses[i+1].split()] for i in range(0,len(self.data_courses),2)}[str(id)]
-
-    def get_bank(self):
-        """
-            get_bank(): return a dictionary of Bank information
-        """
-        return {
-            "bank_name": self.bank_account.bank_name,
-            "cardholder": self.bank_account.cardholder,
-            "cardnumber": self.bank_account.cardnumber
-        }
+        self.bank_account = []
+        
     
 
 class Student(User):
     """
         class Student(User): generate a data storaging more_information then inherites id, data type, accountname, password, username and role
         method: 
-            __init__(id, data_type, accountname, password, username, role, more_information)
+            __init__(id, data_type, accountname, password, username, role)
             
     """
-    def __init__(self, id, data_type, accountname, password, username, role, more_information):
+    def __init__(self, id, data_type, accountname, password, username, role):
         """
-            __init__(id, data_type, accountname, password, username, role, more_information): inherites and initiates attributes
+            __init__(id, data_type, accountname, password, username, role): inherites and initiates attributes
         """
         super().__init__(id, data_type, accountname, password, username, role)
-        data_courses = open(DATA_COURSES_OWNER, 'r').read().split("\n")[:-1]
-        data_courses = {data_courses[i]:data_courses[i+1] for i in range(0,len(data_courses),2)}[id]
         
-
 
 
 
