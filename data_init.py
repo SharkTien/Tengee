@@ -42,10 +42,7 @@ class DataManager:
             open(DATA_AMMOUNT_USER, 'w').write(str(id))
             open(DATA_USERS_PATH,'a+',encoding='utf-8').write("%s\n%s\n%s\n%s\n%s\n" % (id, data[0], data[1], data[2], data[3]))
         else:
-            try:
-                id = int(open(DATA_AMMOUNT_COURSE, 'r').read().rstrip()[0]) + 1
-            except:
-                id = 1
+            id = int(open(DATA_AMMOUNT_COURSE, 'r').read().rstrip()) + 1
             new_data = Course(id, type, data[0], data[1], data[2], data[3], data[4], data[5]) 
             self.__data_courses.append(new_data)
             open(DATA_AMMOUNT_COURSE, 'w').write(str(id))
@@ -66,7 +63,7 @@ class DataManager:
         if type:
             data = open(DATA_USERS_PATH, 'r', encoding='utf-8').read().rstrip().split("\n")
             if data != [""]:
-                data = [data[i:i+6] for i in range(0,len(data), 6)]
+                data = [data[i:i+5] for i in range(0,len(data), 5)]
                 for item in data:
                     if item[4]:
                         self.__data_users.append(Teacher(item[0], type, item[1], item[2], item[3], item[4]))
@@ -276,7 +273,7 @@ class Teacher(User):
 
 class Student(User):
     """
-        class Student(User): generate a data storaging more_information then inherites id, data type, accountname, password, username and role
+        class Student(User): inherites id, data type, accountname, password, username and role
         method: 
             __init__(id, data_type, accountname, password, username, role)
             

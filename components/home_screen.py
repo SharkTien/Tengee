@@ -43,7 +43,7 @@ class HomeScreen(QMainWindow):
             self.ui = ui
             self.data = data
             self.meta_data = self.data.get_this_course()
-            self.connect_btn()
+            self.connect_frame_btn()
             if self.data:
                 self.cardimg.setStyleSheet(f"""
                             border-image: url(./ui_files/src/courses/{self.meta_data['image']});
@@ -52,16 +52,26 @@ class HomeScreen(QMainWindow):
                                         """)
             self.title.setText(self.meta_data['title'])
             self.author.setText(self.meta_data['author'])
-            self.description.setText(self.meta_data['description'])
+            self.description.setText(self.meta_data['description'].replace("•","\n"))
             self.price.setText(self.meta_data['price'])
             self.oldprice.setText(self.meta_data['oldprice'])
         
-        def connect_btn(self):
+        def connect_frame_btn(self):
             """
                 connect_btn(ui): initate function for buttons
             """
             self.edit_btn.clicked.connect(lambda: self.edit_course())
-
+            self.enroll_btn.clicked.connect(lambda: self.show_details())
+            
+        def show_details(self):
+            self.ui.tabs.setCurrentIndex(4)
+            self.ui.B_title.setText(self.meta_data["title"])
+            self.ui.B_description.setText(self.meta_data["description"])
+            self.ui.B_author.setText(self.meta_data["author"])
+            self.ui.thumbnail_banner.setStyleSheet(f"border-image: url(./ui_files/src/courses/{self.meta_data['image']});")
+            self.ui.fl_price.setText(self.meta_data["price"])
+            self.ui.fl_oldprice.setText(self.meta_data["oldprice"])
+             
         def edit_course(self):
             """
                 edit_course(): link to the editcourse tab and change data course of current card
@@ -70,7 +80,7 @@ class HomeScreen(QMainWindow):
             self.ui.edit_title_main.setText("Edit courses page")
             self.ui.id.setText(self.meta_data["id"])
             self.ui.title_entry.setText(self.meta_data["title"])
-            self.ui.description_entry.setText(self.meta_data["description"])
+            self.ui.description_entry.setText(self.meta_data["description"].replace("•","\n"))
             self.ui.thumbnail_entry.setText(self.meta_data["image"])
             self.ui.price.setText(self.meta_data["price"])
             self.ui.oldprice.setText(self.meta_data["oldprice"])
@@ -94,9 +104,12 @@ class HomeScreen(QMainWindow):
         self.define_role()
 
     def define_role(self):
-        if self.data.get_this_user()["role"] == 0:
+        """
+            define_role(self): separate student and teacher function
+        """
+        if self.data.get_this_user()["role"] == '0':
             StudentUIFunctions(self)
-        else:
+        elif self.data.get_this_user()["role"] == '1':
             TeacherUIFunctions(self)
 
     def init_UI(self):
@@ -293,8 +306,12 @@ class UIFunction(HomeScreen):
             course = item.get_this_course()
             if keyword.lower() in ' '.join([course['title'].lower(),course['description'].lower(), course['author'].lower()]):
                 ui.Card = ui.CardFrame(ui, item)
-                ui.Card.enroll_btn.hide()
-                ui.Card.edit_btn.hide()
+                if ui.data.get_this_user()["role"] == 1:
+                    ui.Card.enroll_btn.hide()
+                    ui.Card.addtocard_btn.hide()
+                else:
+                    ui.Card.more_information.hide()
+                    ui.Card.edit_btn.hide()
                 current_layout.addWidget(ui.Card)
         if len(current_layout) == 1:
             ui.noanswer.show()
@@ -318,6 +335,7 @@ class StudentUIFunctions(UIFunction):
         ui.creditCardLabel.hide()
         ui.creditCardLineEdit.hide()
 
+    
 class TeacherUIFunctions(UIFunction):
     """
         class TeacherUIFunctions
@@ -331,7 +349,6 @@ class TeacherUIFunctions(UIFunction):
         """
         super().__init__(ui)
         ui.ycourses_btn.hide()
-        ui.cart_btn.hide()
         self.connect_teacher_btn(ui)
         self.load_created_courses(ui)
 
@@ -376,7 +393,6 @@ class TeacherUIFunctions(UIFunction):
             item = ui.datamanager.find_data(0, int(i))
             ui.Card = ui.CardFrame(ui, item)
             ui.Card.enroll_btn.hide()
-            ui.Card.more_information.hide()
             current_layout.addWidget(ui.Card)
 
         if len(current_layout) == 2:
@@ -390,11 +406,11 @@ class TeacherUIFunctions(UIFunction):
         """
         title = ui.title_entry.text()
         username = ui.username.text()
-        description = ui.description_entry.toPlainText()
+        description = ui.description_entry.toPlainText().replace("\n","•")
         price = ui.price.text()
         oldprice = ui.oldprice.text()
         thumbnail = ui.thumbnail_entry.text()
-        if create:
+        if not create:
             d = ui.datamanager.get_data(0)
             for item in d:
                 if item.id == ui.id.text():
