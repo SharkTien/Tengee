@@ -362,7 +362,7 @@ QPushButton:hover {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="home">
           <property name="styleSheet">
@@ -403,6 +403,22 @@ QPushButton {
                <number>0</number>
               </property>
               <item>
+               <widget class="QPushButton" name="all">
+                <property name="maximumSize">
+                 <size>
+                  <width>500</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
+                <property name="text">
+                 <string>All</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QPushButton" name="it">
                 <property name="maximumSize">
                  <size>
@@ -431,22 +447,6 @@ QPushButton {
                 </property>
                 <property name="text">
                  <string>Marketing</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="psychology">
-                <property name="maximumSize">
-                 <size>
-                  <width>500</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="cursor">
-                 <cursorShape>PointingHandCursor</cursorShape>
-                </property>
-                <property name="text">
-                 <string>Psychology</string>
                 </property>
                </widget>
               </item>
@@ -1763,7 +1763,7 @@ QPushButton:hover {
                  </property>
                 </widget>
                </item>
-               <item row="7" column="1">
+               <item row="8" column="1">
                 <widget class="QPushButton" name="delete_btn">
                  <property name="font">
                   <font>
@@ -1794,7 +1794,7 @@ QPushButton:hover {
                  </property>
                 </widget>
                </item>
-               <item row="8" column="1">
+               <item row="9" column="1">
                 <spacer name="verticalSpacer_2">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
@@ -1806,6 +1806,39 @@ QPushButton:hover {
                   </size>
                  </property>
                 </spacer>
+               </item>
+               <item row="7" column="1">
+                <widget class="QPushButton" name="create_btn">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                   <weight>75</weight>
+                   <italic>false</italic>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="statusTip">
+                  <string>0</string>
+                 </property>
+                 <property name="layoutDirection">
+                  <enum>Qt::LeftToRight</enum>
+                 </property>
+                 <property name="text">
+                  <string>Create</string>
+                 </property>
+                 <property name="autoDefault">
+                  <bool>false</bool>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -1877,8 +1910,8 @@ QScrollBar::add-page, QScrollBar::sub-page {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>897</width>
-                <height>709</height>
+                <width>557</width>
+                <height>477</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -2388,6 +2421,9 @@ QLabel {
                         <italic>false</italic>
                         <bold>true</bold>
                        </font>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">

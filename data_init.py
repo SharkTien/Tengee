@@ -1,8 +1,5 @@
-DATA_USERS_PATH = "./data/users/data_users.dat"
-DATA_COURSES_PATH = "./data/courses/data_courses.dat"
-DATA_AMMOUNT_USER = "./data/users/id_u.dat"
-DATA_AMMOUNT_COURSE = "./data/courses/id_c.dat"
-DATA_COURSES_OWNER = "./data/courses/courses_owner.dat"
+from path import *
+
 class DataManager:
     """
     DataManager:
@@ -22,6 +19,7 @@ class DataManager:
         """
         self.__data_users = []
         self.__data_courses = []
+        
 
     def insert_data(self, type, data):
         """
@@ -30,26 +28,29 @@ class DataManager:
         """
         if type:
             try:
-                id = int(open(DATA_AMMOUNT_USER, 'r').read().rstrip()[0]) + 1
+                id = str(int(open(DATA_AMMOUNT_USER,'r').read().rstrip()) + 1)
             except:
-                id = 1
+                id = '1'
             open(DATA_COURSES_OWNER, 'a+').write("%s\n%s\n" % (id, ""))
             if data[2]:
                 new_data = Teacher(id, type, data[0], data[1], data[2], data[3]) #id, type=1, accountname, password, username, role
             else:
                 new_data = Student(id, type, data[0], data[1], data[2], data[3]) #id, type=1, accountname, password, username, role
             self.__data_users.append(new_data)
-            open(DATA_AMMOUNT_USER, 'w').write(str(id))
+            open(DATA_AMMOUNT_USER, 'w').write(id)
             open(DATA_USERS_PATH,'a+',encoding='utf-8').write("%s\n%s\n%s\n%s\n%s\n" % (id, data[0], data[1], data[2], data[3]))
         else:
-            id = int(open(DATA_AMMOUNT_COURSE, 'r').read().rstrip()) + 1
+            try:
+                id = self.getID()
+            except:
+                id = '1'
             new_data = Course(id, type, data[0], data[1], data[2], data[3], data[4], data[5]) 
             self.__data_courses.append(new_data)
             open(DATA_AMMOUNT_COURSE, 'w').write(str(id))
             open(DATA_COURSES_PATH,'a+',encoding='utf-8').write("%s\n%s\n%s\n%s\n%s\n%s\n%s\n" % (id, data[0], data[1], data[2], data[3], data[4], data[5]))
             d = open(DATA_COURSES_OWNER,'r').read().split("\n")[:-1]
             d = {d[i]:d[i+1].split() for i in range(0, len(d), 2)}
-            d[str(data[6])].append(str(id))
+            d[data[6]].append(str(id))
             with open(DATA_COURSES_OWNER, 'w') as f:
                 for key,value in d.items():
                     f.write("%s\n%s\n" % (key, " ".join(value)))
@@ -111,20 +112,22 @@ class DataManager:
     def find_data(self, typeData, id):
         """
             class find_data: find data from data users [1] and data courses [0] based on [typeData] and [id].
-            If id = -1, find accountname of users
+            If type = -1, find accountname of users
         """
-        if type(id) == str:
+        if typeData == -1:
             items = []
             for item in self.__data_users:
                 items.append(item.get_this_user()["accountname"])
             return self.__data_users[items.index(id)]
         elif typeData == 1:
             for item in self.__data_users:
-                if int(item.get_this_user()["id"]) == id:
+                if item.get_this_user()["id"] == id:
                     return item
         elif typeData == 0:
+           print(id)
            for item in self.__data_courses:
-                if int(item.get_this_course()["id"]) == id:
+                print(item.get_this_course())
+                if item.get_this_course()["id"] == id:
                     return item
     
     def delete(self, data, type):
@@ -137,14 +140,28 @@ class DataManager:
                 if item.id != data.id:
                     i = item.get_this_user()
                     d.append([i["id"], 1, i["accountname"], i["password"], i["username"], i["role"]])
-            self.update_data(1, data)
+            self.update_data(1, d)
         else:
             d = []
             for item in self.get_data(0):
                 if item.id != data.id:
-                    i = item.get_this_course()
-                    d.append([i["id"], 1, i["title"], i["author"], i["description"], i["price"], i["oldprice"], i["image"]])
-
+                    d.append(item)
+            self.__data_courses = d
+            self.update_data(0, d)
+            d = open(DATA_COURSES_OWNER,'r').read().split("\n")[:-1]
+            d = {d[i]:d[i+1].split() for i in range(0, len(d), 2)}
+            for i in d.keys():
+                if data.id in d[i]:
+                    d[i].remove(data.id)
+            with open(DATA_COURSES_OWNER, 'w') as f:
+                for key,value in d.items():
+                    f.write("%s\n%s\n" % (key, " ".join(value)))
+    
+    def getID(self):
+        try:
+            return str(int(open(DATA_AMMOUNT_COURSE, 'r').read().rstrip()) + 1)
+        except:
+            return '1'
 class Data:
     """
         class Data: generate a data storaging id and data_type, which is the familiar attributes of Course and User data.
@@ -209,8 +226,7 @@ class User(Data):
         self.__username = username
         self.__role = role
         self.data_courses = open(DATA_COURSES_OWNER, 'r').read().split("\n")[:-1]
-        self.data_courses = {self.data_courses[i]:[int(j) for j in self.data_courses[i+1].split()] for i in range(0,len(self.data_courses),2)}[str(id)]
-
+        self.data_courses = {self.data_courses[i]:[j for j in self.data_courses[i+1].split() if j != ""] for i in range(0,len(self.data_courses),2)}[id]
         
     def get_this_user(self):
         """

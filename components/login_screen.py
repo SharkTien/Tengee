@@ -225,7 +225,7 @@ class LoginScreen(QMainWindow):
                 self.frameError.show()
                 self.Error_Content.setText("Tên tài khoản không tồn tại. Hãy nhập lại.")
             else:
-                fa = self.datamanager.find_data(1, accountname)
+                fa = self.datamanager.find_data(-1, accountname)
                 fa_meta = fa.get_this_user()
                 if fa_meta["password"] != password:
                     self.frameError.show()
@@ -292,7 +292,7 @@ class LoginScreen(QMainWindow):
 
         if check:
             role = 1 if self.teacher.isChecked() else 0
-            self.datamanager.insert_data(1, [username, password, name, role, ['','','']])
+            self.datamanager.insert_data(1, [username, password, name, str(role)])
             self.NameBox_SI.clear()
             self.PassBox_SI.clear()
             self.SavePass.setChecked(False)

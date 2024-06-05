@@ -1,0 +1,8 @@
+DATA_USERS_PATH = "./data/users/data_users.dat"
+DATA_COURSES_PATH = "./data/courses/data_courses.dat"
+DATA_AMMOUNT_USER = "./data/users/id_u.dat"
+DATA_AMMOUNT_COURSE = "./data/courses/id_c.dat"
+DATA_COURSES_OWNER = "./data/courses/courses_owner.dat"
+UI_MAIN_PATH = "./ui_files/Home_gui.ui"
+USERS_PATH = "./data/users/users.dat"
+CARD_PATH = "./ui_files/card.ui"

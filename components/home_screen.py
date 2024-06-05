@@ -2,15 +2,13 @@ import os
 from PyQt5 import QtCore, uic, sip
 from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QFileDialog
 from PyQt5.QtCore import Qt
+
+from path import *
+
 import shutil
 
 from utils.config import SCREEN_HEIGHT, SCREEN_WIDTH
 
-
-UI_MAIN_PATH = "./ui_files/Home_gui.ui"
-
-USERS_PATH = "./data/users/users.dat"
-CARD_PATH = "./ui_files/card.ui"
 
 class HomeScreen(QMainWindow):
     """
@@ -62,6 +60,7 @@ class HomeScreen(QMainWindow):
             """
             self.edit_btn.clicked.connect(lambda: self.edit_course())
             self.enroll_btn.clicked.connect(lambda: self.show_details())
+            self.more_information.clicked.connect(lambda: self.show_details())
             
         def show_details(self):
             self.ui.tabs.setCurrentIndex(4)
@@ -173,12 +172,13 @@ class UIFunction(HomeScreen):
         ui.btn_quit.clicked.connect(lambda: self.quit(ui))
         ui.account_btn.clicked.connect(lambda: ui.tabs.setCurrentIndex(1))
         ui.home_btn.clicked.connect(lambda: ui.tabs.setCurrentIndex(0))
+        ui.home_btn.clicked.connect(lambda: self.load_data(ui, ui.search.text()))
         ui.Save.clicked.connect(lambda: self.change(ui))
         ui.logout_btn.clicked.connect(lambda: self.backlogin(ui))
         ui.searchgo_btn.clicked.connect(lambda: self.load_data(ui, ui.search.text()))
         ui.it.clicked.connect(lambda: self.load_data(ui, 'python'))
         ui.marketing.clicked.connect(lambda: self.load_data(ui, 'marketing')) 
-        ui.psychology.clicked.connect(lambda: self.load_data(ui, 'psychology'))
+        ui.all.clicked.connect(lambda: self.load_data(ui, ''))
 
     def quit(self, ui):
         """"
@@ -302,16 +302,17 @@ class UIFunction(HomeScreen):
                 i.setParent(None)
         ui.homescroll.verticalScrollBar().setValue(1)
 
-        for item in ui.data_courses:
+        for item in ui.datamanager.get_data(0):
             course = item.get_this_course()
             if keyword.lower() in ' '.join([course['title'].lower(),course['description'].lower(), course['author'].lower()]):
                 ui.Card = ui.CardFrame(ui, item)
-                if ui.data.get_this_user()["role"] == 1:
+                if ui.data.get_this_user()["role"] == '1':
                     ui.Card.enroll_btn.hide()
-                    ui.Card.addtocard_btn.hide()
-                else:
+                    ui.Card.edit_btn.hide()
+                elif ui.data.get_this_user()["role"] == '0':
                     ui.Card.more_information.hide()
                     ui.Card.edit_btn.hide()
+
                 current_layout.addWidget(ui.Card)
         if len(current_layout) == 1:
             ui.noanswer.show()
@@ -349,6 +350,8 @@ class TeacherUIFunctions(UIFunction):
         """
         super().__init__(ui)
         ui.ycourses_btn.hide()
+        ui.create_btn.hide()
+        ui.purchase.setDisabled(True)
         self.connect_teacher_btn(ui)
         self.load_created_courses(ui)
 
@@ -359,6 +362,7 @@ class TeacherUIFunctions(UIFunction):
         ui.addCourses_btn.clicked.connect(lambda: ui.tabs.setCurrentIndex(2))
         ui.addCourses_btn.clicked.connect(lambda: self.load_created_courses(ui))
         ui.save_btn.clicked.connect(lambda: self.save_data(ui, 0))
+        ui.create_btn.clicked.connect(lambda: self.save_data(ui, 1))
         ui.url_thumbnail_btn.clicked.connect(lambda: self.open_thumbnail_file(ui))
         ui.delete_btn.clicked.connect(lambda: self.delete_courses(ui))
         ui.create_course.clicked.connect(lambda: self.add_courses(ui))
@@ -368,8 +372,11 @@ class TeacherUIFunctions(UIFunction):
         """
         add_courses(self, ui): function open edit tab and run addcourse function
         """
+        ui.save_btn.hide()
+        ui.create_btn.show()
         ui.tabs.setCurrentIndex(3)
         ui.edit_title_main.setText("Create your awesome courses with us")
+        ui.id.setText(ui.datamanager.getID())
         ui.title_entry.clear()
         ui.description_entry.clear()
         ui.thumbnail_entry.clear()
@@ -381,16 +388,20 @@ class TeacherUIFunctions(UIFunction):
         """
         load_created_courses(self, ui): Fetch created courses of the current user from data file
         """
+        ui.search.clear()
         ui.no_created_found.hide()
         ui.create_course.hide()
         ui.create_course_btn.show()
+        ui.delete_btn.show()
+        ui.save_btn.show()
+        ui.create_btn.hide()
         current_layout = ui.tc_content.layout()
         if current_layout:
             for i in ui.tc_content.children()[3:]:
                 i.setParent(None)
         ui.tc_scroll.verticalScrollBar().setValue(1)
         for i in ui.data.data_courses:   
-            item = ui.datamanager.find_data(0, int(i))
+            item = ui.datamanager.find_data(0, i)
             ui.Card = ui.CardFrame(ui, item)
             ui.Card.enroll_btn.hide()
             current_layout.addWidget(ui.Card)
@@ -426,25 +437,26 @@ class TeacherUIFunctions(UIFunction):
             QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setText("Save"))
             QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setDisabled(False))
         else:
-            try:
-                ui.datamanager.insert_data(0, [title if title else "Untitle Course", username, description, 
-                                           price if price else "0", oldprice, thumbnail.split('/')[-1] if thumbnail else "tengee.png", ui.data.id])
-                if thumbnail:
-                    shutil.copy(thumbnail, "./ui_files/src/courses")
-                ui.save_btn.setDisabled(True)
-                ui.save_btn.setText("Created")
-                QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setText("Save"))
-                QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setDisabled(False))
-                ui.data.data_courses.append(len(ui.datamanager.get_data(0)))
-                self.load_created_courses(ui)
-                ui.tabs.setCurrentIndex(2)
-            except:
-                ui.tabs.setCurrentIndex(2)
+            ui.datamanager.insert_data(0, [title if title else "Untitle Course", username, description, 
+                                        price if price else "0", oldprice, thumbnail.split('/')[-1] if thumbnail else "tengee.png", ui.data.id])
+            if thumbnail:
+                shutil.copy(thumbnail, "./ui_files/src/courses")
+            ui.create_btn.setDisabled(True)
+            QtCore.QTimer.singleShot(1000, lambda: ui.create_btn.setDisabled(False))
+            ui.data.data_courses.append(str(open(DATA_AMMOUNT_COURSE, 'r').read()))
+            self.load_created_courses(ui)
+            ui.tabs.setCurrentIndex(2)
             ui.delete_btn.show()
+            ui.save_btn.show()
+            ui.create_btn.hide()
 
     def delete_courses(self, ui):
         if self.warn_close_frame(ui):
-            self.load_created_courses(ui)
+            this_course = ui.datamanager.find_data(0, ui.id.text())
+            ui.datamanager.delete(this_course, 0)
+            ui.data.data_courses.remove(ui.id.text())
+            ui.data_courses = ui.datamanager.get_data(0)
+        self.load_created_courses(ui)
         ui.tabs.setCurrentIndex(2)
             
 
