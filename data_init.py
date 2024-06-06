@@ -19,12 +19,10 @@ class DataManager:
         """
         self.__data_users = []
         self.__data_courses = []
-        
 
     def insert_data(self, type, data):
         """
-            insert_data(type: bool, data: list): insert a data (user/ course based on [type]) into user list/ course list
-            data is a list with format: [accountname, password, username, role]
+            insert_data(type: bool, data: list): insert a data (user/ course based on [type]) into user list/ course list. Data is a list with format: [id, type, accountname, password, username, role]
         """
         if type:
             try:
@@ -50,7 +48,7 @@ class DataManager:
             open(DATA_COURSES_PATH,'a+',encoding='utf-8').write("%s\n%s\n%s\n%s\n%s\n%s\n%s\n" % (id, data[0], data[1], data[2], data[3], data[4], data[5]))
             d = open(DATA_COURSES_OWNER,'r').read().split("\n")[:-1]
             d = {d[i]:d[i+1].split() for i in range(0, len(d), 2)}
-            d[data[6]].append(str(id))
+            d[data[1]].append(str(id))
             with open(DATA_COURSES_OWNER, 'w') as f:
                 for key,value in d.items():
                     f.write("%s\n%s\n" % (key, " ".join(value)))
@@ -109,9 +107,10 @@ class DataManager:
                     f.write(f"{i["price"]}\n")
                     f.write(f"{i["oldprice"]}\n")
                     f.write(f"{i["image"]}\n")
+    
     def find_data(self, typeData, id):
         """
-            class find_data: find data from data users [1] and data courses [0] based on [typeData] and [id].
+            find_data(typeData, id): find data from data users [1] and data courses [0] based on [typeData] and [id].
             If type = -1, find accountname of users
         """
         if typeData == -1:
@@ -124,15 +123,17 @@ class DataManager:
                 if item.get_this_user()["id"] == id:
                     return item
         elif typeData == 0:
-           print(id)
            for item in self.__data_courses:
-                print(item.get_this_course())
                 if item.get_this_course()["id"] == id:
                     return item
-    
+        elif typeData == 2:
+            for item in self.__data_users:
+                if item.get_this_user()["id"] == id:
+                    return item.get_this_user()["username"]
+        
     def delete(self, data, type):
         """
-           delete: function delete account or course based on [type] (bool)
+           delete(data, type): function delete account or course based on [type] (bool)
         """
         if type:
             d = []
@@ -158,10 +159,14 @@ class DataManager:
                     f.write("%s\n%s\n" % (key, " ".join(value)))
     
     def getID(self):
+        """
+            getID(self): create new object's ID 
+        """
         try:
             return str(int(open(DATA_AMMOUNT_COURSE, 'r').read().rstrip()) + 1)
         except:
             return '1'
+
 class Data:
     """
         class Data: generate a data storaging id and data_type, which is the familiar attributes of Course and User data.
@@ -194,6 +199,7 @@ class Course(Data):
         self.price = price
         self.oldprice = oldprice
         self.image = image
+    
     def get_this_course(self):
         """
             get_this_course(): return a dictionary with keys including: title, author, description, price, oldprice and image
@@ -230,7 +236,7 @@ class User(Data):
         
     def get_this_user(self):
         """
-            get_this_user(): return two value accountname, [password, username, role]
+            get_this_user(): return a dict {id, accountname, password, username, role}
         """
         return {
             "id":self.id,
@@ -241,9 +247,15 @@ class User(Data):
         }
     
     def change_password(self, data):
+        """
+            change_password(data): get access to password and change it
+        """
         self.__password = data
 
     def change_username(self, data):
+        """
+            change_username(data): get access to username and change it
+        """
         self.__username = data
         
 class Teacher(User):
@@ -260,21 +272,21 @@ class Teacher(User):
             method:
                 __init__(bank_name, cardholder, cardnumber)
         """
-        def __init__(self, bank_name, cardholder, cardnumber):
+        def __init__(self, bank_name, recipient, cardnumber):
             """
                 __init__(bank_name, cardholder, cardnumber): initiate attributes
             """
             self.__bank_name = bank_name
-            self.__cardholder = cardholder
+            self.__recipient = recipient
             self.__cardnumber = cardnumber
 
         def get_this_bank(self):
             """
-                get_bank(): return a dictionary of Bank information
+                get_this_bank(): return a dictionary of Bank information
             """
             return {
                 "bank_name": self.__bank_name,
-                "cardholder": self.__cardholder,
+                "recipient": self.__recipient,
                 "cardnumber": self.__cardnumber
             }
         
@@ -284,8 +296,32 @@ class Teacher(User):
         """
         super().__init__(id, data_type, accountname, password, username, role)
         self.bank_account = []
-        
-    
+        self.fetch_bank()
+
+    def insert_bank(self, bank_name, card_number, recipient):
+        """
+            insert_bank(bank_name, card_number, recipient): insert new bank value to this Teacher account
+        """
+        self.bank_account = Teacher.Bank(bank_name, card_number, recipient)
+        d = open(DATA_BANKING, 'r', encoding='utf-8').read().rstrip().split("\n")
+        data = []
+        if d[0] != "":
+            for i in d:
+                if i.split('•')[0] != self.id:
+                    data.append(i)
+        data.append("%s•%s•%s•%s\n" % (self.id, bank_name, card_number, recipient))
+        open(DATA_BANKING, 'w', encoding='utf-8').write("\n".join(data))
+
+    def fetch_bank(self):
+        """
+            fetch_bank(self): get bank account data
+        """
+        d = open(DATA_BANKING, 'r', encoding='utf-8').read().rstrip().split("\n")
+        if d[0] != "":
+            for item in d:
+                i = item.split('•')
+                if i[0] == self.id:
+                    self.bank_account = Teacher.Bank(i[1], i[2], i[3])
 
 class Student(User):
     """

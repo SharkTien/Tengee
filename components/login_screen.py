@@ -44,7 +44,7 @@ class LoginScreen(QMainWindow):
     """
     switch_window_home = QtCore.pyqtSignal(object, object)
     switch_window_quit = QtCore.pyqtSignal()
-    enabled = "qwertyuiopasdfghjklzxcvbnm1234567890 @/._"
+    enabled = "qwertyuiopasdfghjklzxcvbnm1234567890 @/._,"
     GLOBAL_STATE = False
     STATE_ECHOPASS = True
 
@@ -94,7 +94,7 @@ class LoginScreen(QMainWindow):
             moveWindow(event): enable to drag the window  
         """
         if self.GLOBAL_STATE == True:
-            self.maximize_restore(self)
+            self.maximize_restore()
         if event.buttons() == Qt.LeftButton:
             self.move(self.pos() + event.globalPos() - self.dragPos)
             self.dragPos = event.globalPos()

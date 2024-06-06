@@ -1,4 +1,6 @@
-import os 
+import os
+import random
+import string
 from PyQt5 import QtCore, uic, sip
 from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QFileDialog
 from PyQt5.QtCore import Qt
@@ -49,7 +51,7 @@ class HomeScreen(QMainWindow):
                             padding: -50px;
                                         """)
             self.title.setText(self.meta_data['title'])
-            self.author.setText(self.meta_data['author'])
+            self.author.setText(ui.datamanager.find_data(2,self.meta_data['author']))
             self.description.setText(self.meta_data['description'].replace("•","\n"))
             self.price.setText(self.meta_data['price'])
             self.oldprice.setText(self.meta_data['oldprice'])
@@ -65,11 +67,27 @@ class HomeScreen(QMainWindow):
         def show_details(self):
             self.ui.tabs.setCurrentIndex(4)
             self.ui.B_title.setText(self.meta_data["title"])
-            self.ui.B_description.setText(self.meta_data["description"])
-            self.ui.B_author.setText(self.meta_data["author"])
+            self.ui.B_description.setText(self.meta_data["description"].replace("•","\n"))
+            self.ui.B_author.setText(self.ui.datamanager.find_data(2,self.meta_data["author"]))
             self.ui.thumbnail_banner.setStyleSheet(f"border-image: url(./ui_files/src/courses/{self.meta_data['image']});")
             self.ui.fl_price.setText(self.meta_data["price"])
             self.ui.fl_oldprice.setText(self.meta_data["oldprice"])
+            self.ui.B_title_p.setText(self.ui.B_title.text())
+            self.ui.B_description_p.setText(self.ui.B_description.text().replace("•","\n"))
+            self.ui.author_p.setText(self.ui.B_author.text())
+            self.ui.price_total.setText(str(self.ui.fl_price.text()))
+            self.ui.cardnumber.setText(self.ui.datamanager.find_data(1, self.meta_data["author"]).bank_account.get_this_bank()["cardnumber"])
+            self.ui.bankname.setText(self.ui.datamanager.find_data(1, self.meta_data["author"]).bank_account.get_this_bank()["bank_name"])
+            self.ui.recipient.setText(self.ui.datamanager.find_data(1, self.meta_data["author"]).bank_account.get_this_bank()["recipient"])
+            self.ui.code.setText(str(self.genCode()))
+
+        def genCode(self):
+            """
+            genCode(self): function generate randomly a series of character
+            """
+            characters = string.ascii_letters + string.digits
+            random_code = ''.join(random.choice(characters) for _ in range(15))
+            return random_code
              
         def edit_course(self):
             """
@@ -157,7 +175,7 @@ class UIFunction(HomeScreen):
     GLOBAL_STATE = False    
     def __init__(self, ui):
         self.connect_btn(ui)
-        self.load_data(ui, "python")
+        self.load_data(ui, "")
         ui.username.setText(ui.data.get_this_user()["username"])
         ui.rolelabel.setText("teacher" if ui.data.get_this_user()["role"] == "1" else "student")
         ui.Entry_password.setText(ui.data.get_this_user()["password"])
@@ -295,7 +313,7 @@ class UIFunction(HomeScreen):
         load_data(self, ui, keyword): Fetch data based on the keyword from data file
         """
         ui.noanswer.hide()
-        ui.descriptionfilter.setText(f"Help you get more career opportunities with '{keyword}'")
+        ui.descriptionfilter.setText(f"Help you get more career opportunities with {keyword if keyword else 'our Courses'}")
         current_layout = ui.homecontents.layout()
         if current_layout:
             for i in ui.homecontents.children()[2:]:
@@ -324,6 +342,16 @@ class StudentUIFunctions(UIFunction):
             This class generates functions for users who are students.
         methods:
             __init__(self)
+
+            connect_student_btn(self)
+
+            tabPurchase(self)
+
+            genCode(self)
+
+            confirmBanking(self, ui)
+
+            warn_banking_frame(self, ui)
     """
     def __init__(self, ui):
         """
@@ -331,12 +359,46 @@ class StudentUIFunctions(UIFunction):
         """
         super().__init__(ui)
         ui.addCourses_btn.hide()
-        ui.cardholderNameLabel.hide()
-        ui.cardholderNameLineEdit.hide()
+        ui.creditCardLabel_2.hide()
         ui.creditCardLabel.hide()
-        ui.creditCardLineEdit.hide()
+        ui.cardholderNameLabel.hide()
+        ui.Bankname_entry.hide()
+        ui.Cardnumber_entry.hide()
+        ui.Recipient_entry.hide()
+        self.connect_student_btn(ui)
 
+    def connect_student_btn(self, ui):
+        """
+            connect_student_btn(self, ui): initiate function for basic student's buttons
+        """
+        
+        ui.purchase.clicked.connect(lambda: ui.tabs.setCurrentIndex(5))
+        ui.backbutton_p.clicked.connect(lambda: ui.tabs.setCurrentIndex(4))
+        ui.confirm.clicked.connect(lambda: self.confirm_banking(ui))
+        
     
+    def confirm_banking(self, ui):
+        """
+        confirm_banking(self, ui): fuction confirming if users have already transfered tuition fee
+        """
+        if self.warn_banking_frame(ui):
+            ui.tabs.setCurrentIndex(4)
+            
+
+    def warn_banking_frame(self, ui):
+        """
+        warn_banking_frame(self): display QMessageBox
+        """
+        msg = QMessageBox.question(
+            ui, 
+            "Confirm banking",
+            "Confirm successful transfer? If you have not made the transfer, your account will be blocked.",
+            QMessageBox.Yes | QMessageBox.Cancel,
+            QMessageBox.Cancel,
+        )
+        return msg == QMessageBox.Yes
+
+
 class TeacherUIFunctions(UIFunction):
     """
         class TeacherUIFunctions
@@ -359,7 +421,7 @@ class TeacherUIFunctions(UIFunction):
         """
             connect_teacher_btn(self, ui): initiate function for basic teacher's buttons
         """
-        ui.addCourses_btn.clicked.connect(lambda: ui.tabs.setCurrentIndex(2))
+        ui.addCourses_btn.clicked.connect(lambda: self.open_addCourse_page(ui))
         ui.addCourses_btn.clicked.connect(lambda: self.load_created_courses(ui))
         ui.save_btn.clicked.connect(lambda: self.save_data(ui, 0))
         ui.create_btn.clicked.connect(lambda: self.save_data(ui, 1))
@@ -367,6 +429,16 @@ class TeacherUIFunctions(UIFunction):
         ui.delete_btn.clicked.connect(lambda: self.delete_courses(ui))
         ui.create_course.clicked.connect(lambda: self.add_courses(ui))
         ui.create_course_btn.clicked.connect(lambda: self.add_courses(ui))
+        ui.Save.clicked.connect(lambda: self.save_banking(ui))
+    
+    def open_addCourse_page(self, ui):
+        ui.tabs.setCurrentIndex(2)
+        if not ui.data.bank_account:
+            ui.create_course_btn.setDisabled(True)
+            ui.create_course.setDisabled(True)
+        else:
+            ui.create_course_btn.setDisabled(False)
+            ui.create_course.setDisabled(False)
 
     def add_courses(self, ui):
         """
@@ -416,7 +488,6 @@ class TeacherUIFunctions(UIFunction):
         save_data(ui): save current edited data in course edit page
         """
         title = ui.title_entry.text()
-        username = ui.username.text()
         description = ui.description_entry.toPlainText().replace("\n","•")
         price = ui.price.text()
         oldprice = ui.oldprice.text()
@@ -426,7 +497,6 @@ class TeacherUIFunctions(UIFunction):
             for item in d:
                 if item.id == ui.id.text():
                     item.title = title
-                    item.author = username
                     item.description = description
                     item.price = price if price else 0
                     item.oldprice = oldprice
@@ -437,7 +507,7 @@ class TeacherUIFunctions(UIFunction):
             QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setText("Save"))
             QtCore.QTimer.singleShot(1000, lambda: ui.save_btn.setDisabled(False))
         else:
-            ui.datamanager.insert_data(0, [title if title else "Untitle Course", username, description, 
+            ui.datamanager.insert_data(0, [title if title else "Untitle Course", ui.data.id, description, 
                                         price if price else "0", oldprice, thumbnail.split('/')[-1] if thumbnail else "tengee.png", ui.data.id])
             if thumbnail:
                 shutil.copy(thumbnail, "./ui_files/src/courses")
@@ -458,7 +528,6 @@ class TeacherUIFunctions(UIFunction):
             ui.data_courses = ui.datamanager.get_data(0)
         self.load_created_courses(ui)
         ui.tabs.setCurrentIndex(2)
-            
 
     def warn_close_frame(self, ui):
         msg = QMessageBox.question(
@@ -475,4 +544,10 @@ class TeacherUIFunctions(UIFunction):
         file_path = QFileDialog.getOpenFileName(ui, "Open file", HOME_PATH, "*.png;*.jfif;*.pjpeg;*.jpeg;*.pjp;*.jpg;*.heic;*.webp")
         if file_path[0]:
             ui.thumbnail_entry.setText(file_path[0])
-            
+    
+    def save_banking(self, ui):
+        bankname = ui.Bankname_entry.text()
+        cardnumber = ui.Cardnumber_entry.text()
+        recipient = ui.Recipient_entry.text()
+        ui.data.insert_bank(bankname, cardnumber, recipient)
+        

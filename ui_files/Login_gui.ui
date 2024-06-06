@@ -1296,6 +1296,9 @@ color: rgb(255, 255, 255);</string>
                        </item>
                        <item>
                         <widget class="QPushButton" name="Note_Name">
+                         <property name="enabled">
+                          <bool>true</bool>
+                         </property>
                          <property name="minimumSize">
                           <size>
                            <width>16</width>
@@ -1315,11 +1318,17 @@ color: rgb(255, 255, 255);</string>
                            <bold>true</bold>
                           </font>
                          </property>
+                         <property name="cursor">
+                          <cursorShape>BusyCursor</cursorShape>
+                         </property>
+                         <property name="focusPolicy">
+                          <enum>Qt::NoFocus</enum>
+                         </property>
                          <property name="toolTip">
                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Registration name requires a minimum of 8 characters, a maximum of 31 characters, and no accents.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;It must include the character range A..Z a..z 0..9 @_/. and spaces.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Or this username already exists.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="toolTipDuration">
-                          <number>-1</number>
+                          <number>0</number>
                          </property>
                          <property name="styleSheet">
                           <string notr="true">QPushButton {
@@ -1342,6 +1351,27 @@ min-height: 20px;
                          </property>
                          <property name="shortcut">
                           <string notr="true"/>
+                         </property>
+                         <property name="checkable">
+                          <bool>true</bool>
+                         </property>
+                         <property name="checked">
+                          <bool>false</bool>
+                         </property>
+                         <property name="autoRepeatDelay">
+                          <number>0</number>
+                         </property>
+                         <property name="autoRepeatInterval">
+                          <number>0</number>
+                         </property>
+                         <property name="autoDefault">
+                          <bool>true</bool>
+                         </property>
+                         <property name="default">
+                          <bool>true</bool>
+                         </property>
+                         <property name="flat">
+                          <bool>true</bool>
                          </property>
                         </widget>
                        </item>
@@ -1519,6 +1549,9 @@ border-bottom: 1px solid rgb(207, 207, 207);
                        </item>
                        <item>
                         <widget class="QPushButton" name="Note_Pass">
+                         <property name="enabled">
+                          <bool>true</bool>
+                         </property>
                          <property name="minimumSize">
                           <size>
                            <width>16</width>
@@ -1534,9 +1567,16 @@ border-bottom: 1px solid rgb(207, 207, 207);
                          <property name="font">
                           <font>
                            <family>Segoe UI Black</family>
+                           <pointsize>8</pointsize>
                            <weight>75</weight>
                            <bold>true</bold>
                           </font>
+                         </property>
+                         <property name="cursor">
+                          <cursorShape>BusyCursor</cursorShape>
+                         </property>
+                         <property name="focusPolicy">
+                          <enum>Qt::NoFocus</enum>
                          </property>
                          <property name="toolTip">
                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To register, you need to create a password that is between 8 and 22 characters long, including only the following characters: A..Z, a..z, 0..9, @, /, and spaces. Accented characters are not allowed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1564,7 +1604,25 @@ min-height: 20px;
                           <string>!</string>
                          </property>
                          <property name="shortcut">
-                          <string notr="true"/>
+                          <string/>
+                         </property>
+                         <property name="checkable">
+                          <bool>true</bool>
+                         </property>
+                         <property name="autoRepeatDelay">
+                          <number>0</number>
+                         </property>
+                         <property name="autoRepeatInterval">
+                          <number>0</number>
+                         </property>
+                         <property name="autoDefault">
+                          <bool>true</bool>
+                         </property>
+                         <property name="default">
+                          <bool>true</bool>
+                         </property>
+                         <property name="flat">
+                          <bool>true</bool>
                          </property>
                         </widget>
                        </item>
@@ -1883,6 +1941,9 @@ border-bottom: 1px solid rgb(236, 236, 236);
                        </item>
                        <item>
                         <widget class="QPushButton" name="Note_User">
+                         <property name="enabled">
+                          <bool>true</bool>
+                         </property>
                          <property name="minimumSize">
                           <size>
                            <width>16</width>
@@ -1901,6 +1962,12 @@ border-bottom: 1px solid rgb(236, 236, 236);
                            <weight>75</weight>
                            <bold>true</bold>
                           </font>
+                         </property>
+                         <property name="cursor">
+                          <cursorShape>BusyCursor</cursorShape>
+                         </property>
+                         <property name="focusPolicy">
+                          <enum>Qt::NoFocus</enum>
                          </property>
                          <property name="toolTip">
                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tên người dùng yêu cầu tối thiểu 6 kí tự.&lt;/p&gt;&lt;p&gt;bao gồm trong phạm vi kí tự A..Z a..z 0..9 @/_. khoảng trắng và &lt;/p&gt;&lt;p&gt;có thể gõ chữ Tiếng Việt.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1929,6 +1996,21 @@ min-height: 20px;
                          </property>
                          <property name="shortcut">
                           <string notr="true"/>
+                         </property>
+                         <property name="autoRepeatDelay">
+                          <number>0</number>
+                         </property>
+                         <property name="autoRepeatInterval">
+                          <number>0</number>
+                         </property>
+                         <property name="autoDefault">
+                          <bool>true</bool>
+                         </property>
+                         <property name="default">
+                          <bool>true</bool>
+                         </property>
+                         <property name="flat">
+                          <bool>true</bool>
                          </property>
                         </widget>
                        </item>
@@ -2003,7 +2085,7 @@ border-bottom: 1px solid rgb(207, 207, 207);
                        <string/>
                       </property>
                       <property name="maxLength">
-                       <number>31</number>
+                       <number>231231232</number>
                       </property>
                       <property name="echoMode">
                        <enum>QLineEdit::Normal</enum>
@@ -2328,15 +2410,18 @@ font: italic;
             </layout>
            </widget>
           </item>
-          <item row="0" column="2">
-           <widget class="QFrame" name="frame_3">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+          <item row="1" column="2">
+           <spacer name="verticalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
             </property>
-           </widget>
+           </spacer>
           </item>
           <item row="3" column="2">
            <spacer name="verticalSpacer_8">
@@ -2351,18 +2436,28 @@ font: italic;
             </property>
            </spacer>
           </item>
-          <item row="1" column="2">
-           <spacer name="verticalSpacer_7">
+          <item row="1" column="0">
+           <spacer name="horizontalSpacer_4">
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>20</width>
-              <height>40</height>
+              <width>40</width>
+              <height>20</height>
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="0" column="2">
+           <widget class="QFrame" name="frame_3">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
           </item>
           <item row="2" column="3">
            <widget class="QFrame" name="SpacerL">
@@ -2385,19 +2480,6 @@ font: italic;
              <enum>QFrame::Raised</enum>
             </property>
            </widget>
-          </item>
-          <item row="1" column="0">
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
