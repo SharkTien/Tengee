@@ -3,7 +3,7 @@ from ui_files import resource
 from data_init import DataManager
 from path import *
 
-VERSION = "1.0.0"
+VERSION = "1.3.4"
 
 if __name__ == "__main__":
     DataSystem = DataManager()

@@ -383,7 +383,7 @@ QPushButton:hover {
                 <property name="verticalSpacing">
                  <number>10</number>
                 </property>
-                <item row="3" column="0">
+                <item row="3" column="1">
                  <widget class="QLabel" name="rolelabel">
                   <property name="styleSheet">
                    <string notr="true">#rolelabel {
@@ -403,22 +403,7 @@ QPushButton:hover {
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="username">
-                  <property name="styleSheet">
-                   <string notr="true">#username {
-	font-size: 20px;
-}</string>
-                  </property>
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Username&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
+                <item row="1" column="1">
                  <widget class="QWidget" name="avatar" native="true">
                   <property name="minimumSize">
                    <size>
@@ -441,6 +426,47 @@ QPushButton:hover {
 }</string>
                   </property>
                  </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLabel" name="username">
+                  <property name="styleSheet">
+                   <string notr="true">#username {
+	font-size: 20px;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Username&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="2">
+                 <spacer name="horizontalSpacer_9">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="1" column="0">
+                 <spacer name="horizontalSpacer_10">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
               </widget>
@@ -609,6 +635,13 @@ QPushButton:hover {
         </widget>
        </item>
        <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QStackedWidget" name="tabs">
          <property name="styleSheet">
           <string notr="true">#tabs {
@@ -616,7 +649,7 @@ QPushButton:hover {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="home">
           <property name="styleSheet">
@@ -880,7 +913,7 @@ QScrollBar::add-page, QScrollBar::sub-page {
                    <x>0</x>
                    <y>0</y>
                    <width>1177</width>
-                   <height>576</height>
+                   <height>577</height>
                   </rect>
                  </property>
                  <property name="styleSheet">
@@ -943,8 +976,8 @@ Try adjusting your search. Here are some ideas:
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1197</width>
-                <height>691</height>
+                <width>606</width>
+                <height>641</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1462,8 +1495,8 @@ QScrollBar::add-page, QScrollBar::sub-page {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1215</width>
-                <height>623</height>
+                <width>501</width>
+                <height>185</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1788,6 +1821,12 @@ QPushButton:hover {
                </item>
                <item row="3" column="1">
                 <widget class="QTextBrowser" name="description_entry">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>60</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
@@ -1929,7 +1968,7 @@ QPushButton:hover {
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>80</height>
+                   <height>60</height>
                   </size>
                  </property>
                  <property name="font">
@@ -2197,7 +2236,7 @@ QScrollBar::add-page, QScrollBar::sub-page {
                 <x>0</x>
                 <y>0</y>
                 <width>897</width>
-                <height>709</height>
+                <height>710</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -2327,6 +2366,37 @@ QLabel {
                      <enum>QFrame::Raised</enum>
                     </property>
                     <layout class="QHBoxLayout" name="horizontalLayout_11">
+                     <item>
+                      <widget class="QLabel" name="id_hidden_course">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>9</pointsize>
+                         <weight>50</weight>
+                         <bold>false</bold>
+                         <underline>false</underline>
+                         <strikeout>false</strikeout>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>ID author course (hidden)</string>
+                       </property>
+                       <property name="wordWrap">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
                      <item>
                       <widget class="QLabel" name="Createdby">
                        <property name="maximumSize">
@@ -2491,6 +2561,37 @@ QLabel {
                        </property>
                        <property name="text">
                         <string>English</string>
+                       </property>
+                       <property name="wordWrap">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="id_hidden">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>9</pointsize>
+                         <weight>50</weight>
+                         <bold>false</bold>
+                         <underline>false</underline>
+                         <strikeout>false</strikeout>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>ID author (hidden)</string>
                        </property>
                        <property name="wordWrap">
                         <bool>true</bool>
@@ -2978,7 +3079,7 @@ QScrollBar::add-page, QScrollBar::sub-page {
                    <x>0</x>
                    <y>0</y>
                    <width>1192</width>
-                   <height>804</height>
+                   <height>825</height>
                   </rect>
                  </property>
                  <property name="styleSheet">
@@ -3269,13 +3370,13 @@ color: rgb(255, 255, 255);</string>
                          <widget class="QFrame" name="frame_6">
                           <property name="minimumSize">
                            <size>
-                            <width>500</width>
+                            <width>550</width>
                             <height>250</height>
                            </size>
                           </property>
                           <property name="maximumSize">
                            <size>
-                            <width>500</width>
+                            <width>550</width>
                             <height>250</height>
                            </size>
                           </property>
@@ -3393,6 +3494,37 @@ border-radius: 15px;</string>
                              </property>
                             </widget>
                            </item>
+                           <item row="3" column="0">
+                            <widget class="QLabel" name="label_10">
+                             <property name="font">
+                              <font>
+                               <pointsize>12</pointsize>
+                              </font>
+                             </property>
+                             <property name="text">
+                              <string>Cardholder name:</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="3" column="1">
+                            <widget class="QLineEdit" name="lineEdit">
+                             <property name="font">
+                              <font>
+                               <pointsize>10</pointsize>
+                              </font>
+                             </property>
+                             <property name="styleSheet">
+                              <string notr="true">border-bottom: 1px solid gray;
+border-radius: 0px;</string>
+                             </property>
+                             <property name="placeholderText">
+                              <string>type your cardholdername here</string>
+                             </property>
+                            </widget>
+                           </item>
                           </layout>
                          </widget>
                         </item>
@@ -3407,7 +3539,8 @@ border-radius: 15px;</string>
                         </font>
                        </property>
                        <property name="text">
-                        <string>Note: Please take a screenshot to confirm the successful transfer as evidence if there is an issue.</string>
+                        <string>Note: Please take a screenshot to confirm the successful transfer as evidence if there is an issue.
+And make sure that your cardholdername is valid</string>
                        </property>
                        <property name="alignment">
                         <set>Qt::AlignCenter</set>
@@ -3607,6 +3740,9 @@ border-radius: 15px;</string>
                      <bold>true</bold>
                     </font>
                    </property>
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">
 QPushButton {
@@ -3635,13 +3771,464 @@ QPushButton:hover {
            </item>
           </layout>
          </widget>
-        </widget>
-       </item>
-       <item>
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
+         <widget class="QWidget" name="notification">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_20">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QScrollArea" name="notification_scroll">
+             <property name="styleSheet">
+              <string notr="true">QScrollArea {
+	border-radius: 10px;
+	outline: 0;
+} 
+QScrollArea::item { 
+	margin: 20px;
+	border: 0px solid black;
+}
+
+QScrollBar{
+	background : transparent;
+}
+
+QScrollBar::handle{
+	background : rgb(158, 158, 158);
+	border-radius: 5px;
+	margin: 3px 3px 3px 3px;
+}
+
+QScrollBar::handle::pressed{
+	background : rgb(85, 85, 85);
+}
+
+QScrollBar::add-line {
+	height: 0px;
+}
+
+QScrollBar::sub-line {
+	height: 0px;
+}
+
+QScrollBar::add-page, QScrollBar::sub-page {
+	height: 0px;
+}</string>
+             </property>
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="notification_content">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1206</width>
+                <height>710</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit {
+	padding: 5px;
+	border: 1px solid transparent;
+	border-radius: 9px;
+}
+
+QTextBrowser {
+	border: transparent;
+}
+
+QPushButton {
+	font: bold;
+	border: 1px solid #111;
+	border-radius: 15px;
+	padding: 10px;
+}
+
+QPushButton:hover {
+	color: #fff;
+	background: #c09054;
+	border: transparent;
+}</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_21">
+               <item>
+                <widget class="QLabel" name="noNotification">
+                 <property name="font">
+                  <font>
+                   <pointsize>14</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">color: rgba(0, 0, 0, 80);</string>
+                 </property>
+                 <property name="text">
+                  <string>There are no notifications here</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="study">
+          <layout class="QHBoxLayout" name="horizontalLayout_15">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QScrollArea" name="study_sidebar">
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QScrollArea {
+	border-radius: 10px;
+	background-color: rgba(255, 255, 255, 50);
+	outline: 0;
+} 
+QScrollArea::item { 
+	margin: 20px;
+	border: 0px solid black;
+}
+
+QScrollBar{
+	background : transparent;
+}
+
+QScrollBar::handle{
+	background : rgb(158, 158, 158);
+	border-radius: 5px;
+	margin: 3px 3px 3px 3px;
+}
+
+QScrollBar::handle::pressed{
+	background : rgb(85, 85, 85);
+}
+
+QScrollBar::add-line {
+	height: 0px;
+}
+
+QScrollBar::sub-line {
+	height: 0px;
+}
+
+QScrollBar::add-page, QScrollBar::sub-page {
+	height: 0px;
+}</string>
+             </property>
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="sidebarcontent">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>300</width>
+                <height>710</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#sidebarcontent {
+	background: transparent;
+}
+
+QLineEdit {
+	padding: 5px;
+	border: 1px solid transparent;
+	border-radius: 9px;
+}
+
+QTextBrowser {
+	border: transparent;
+}
+
+QPushButton {
+	font: bold;
+	border: 1px solid #111;
+	border-radius: 15px;
+	padding: 10px;
+}
+
+QPushButton:hover {
+	color: #fff;
+	background: #c09054;
+	border: transparent;
+}</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_23">
+               <item>
+                <widget class="QFrame" name="imgarea">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_22">
+                  <property name="spacing">
+                   <number>10</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>50</number>
+                  </property>
+                  <item>
+                   <widget class="QFrame" name="imgcard_study">
+                    <property name="minimumSize">
+                     <size>
+                      <width>273</width>
+                      <height>153</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>273</width>
+                      <height>153</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">border-image: url(:/icons/background-login.png)</string>
+                    </property>
+                    <property name="frameShape">
+                     <enum>QFrame::StyledPanel</enum>
+                    </property>
+                    <property name="frameShadow">
+                     <enum>QFrame::Raised</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="title_study">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Introductory Human Physiology</string>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="author_study">
+                    <property name="font">
+                     <font>
+                      <pointsize>11</pointsize>
+                      <weight>50</weight>
+                      <italic>false</italic>
+                      <bold>false</bold>
+                      <underline>false</underline>
+                      <strikeout>false</strikeout>
+                      <kerning>true</kerning>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">#author_study {
+	color: gray;
+}</string>
+                    </property>
+                    <property name="text">
+                     <string>Duke University</string>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_9">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QScrollArea" name="studyarea">
+             <property name="styleSheet">
+              <string notr="true">QScrollArea {
+	border-radius: 9px;
+	background-color: rgba(255, 255, 255, 50);
+	border: 1px solid #cbbfbb;
+} 
+QScrollArea::item { 
+	margin: 20px;
+	border: none;
+}
+
+QScrollBar{
+	background : transparent;
+}
+
+QScrollBar::handle{
+	background : rgb(158, 158, 158);
+	border-radius: 5px;
+	margin: 3px 3px 3px 3px;
+}
+
+QScrollBar::handle::pressed{
+	background : rgb(85, 85, 85);
+}
+
+QScrollBar::add-line {
+	height: 0px;
+}
+
+QScrollBar::sub-line {
+	height: 0px;
+}
+
+QScrollBar::add-page, QScrollBar::sub-page {
+	height: 0px;
+}</string>
+             </property>
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="studycontent">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>913</width>
+                <height>708</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#studycontent {
+	border-radius: 9px;
+}
+
+QLineEdit {
+	padding: 5px;
+	border: 1px solid transparent;
+	border-radius: 9px;
+}
+
+QTextBrowser {
+	border: transparent;
+}
+
+QPushButton {
+	font: bold;
+	border: 1px solid #111;
+	border-radius: 15px;
+	padding: 10px;
+}
+
+QPushButton:hover {
+	color: #fff;
+	background: #c09054;
+	border: transparent;
+}</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_24">
+               <property name="leftMargin">
+                <number>50</number>
+               </property>
+               <property name="topMargin">
+                <number>20</number>
+               </property>
+               <property name="rightMargin">
+                <number>50</number>
+               </property>
+               <property name="bottomMargin">
+                <number>20</number>
+               </property>
+               <item>
+                <widget class="QTextBrowser" name="studywelcome">
+                 <property name="font">
+                  <font>
+                   <family>MS Reference Specialty</family>
+                   <pointsize>8</pointsize>
+                  </font>
+                 </property>
+                 <property name="html">
+                  <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Reference Specialty'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Source Sans Pro','Arial','sans-serif'; font-size:16px; font-weight:696; color:#333333;&quot;&gt;Welcome to Introductory Human Physiology!&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Source Sans Pro','Arial','sans-serif'; font-size:16px; color:#333333; background-color:#ffffff;&quot;&gt;Physiology is an integrative science which considers the function of each organ and organ system and their interaction in the maintenance of life. This introductory course is divided into ten modules. The first introduces some of the underlying concepts that govern integrated body function. These introductions will be brief and will serve as a guide to understanding normal communication among cells, tissues, and organs. In successive modules, we will consider each of the major organs systems and their functional integration. As you move through this course many of these basic concepts will be easier to comprehend because they will be presented in the context of how a specific organ functions. At the completion of the course, you should be able to predict the body’s responses to daily activity, as well as to understand some clinical aspects and/or organ system failure leading to disease.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Source Sans Pro','Arial','sans-serif'; font-size:16px; color:#333333; background-color:#ffffff;&quot;&gt;You should expect to spend approximately 5-7 hours a week on a given module. For general questions about the course site, please consult the FAQs section. Our primary reference text for this course is Introductory Human Physiology, by Emma Jakoi and Jennifer Carbrey, (Lulu Press). This textbook is an ebook that combines our lecture notes into one searchable document. It is available for a minimal fee at several distributors&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Source Sans Pro','Arial','sans-serif'; font-size:16px; font-weight:696; color:#333333;&quot;&gt;Some tips to help you succeed are to:&lt;/span&gt;&lt;/p&gt;
+&lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Source Sans Pro','Arial','sans-serif'; font-size:16px; color:#333333;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16px;&quot;&gt;Listen to the video lectures and/or read the notes.&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Source Sans Pro','Arial','sans-serif'; font-size:16px; color:#333333;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16px;&quot;&gt;Ask questions. The Community TAs and the instructors are here to ensure that you understand the basic concepts and that you can apply them correctly.&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Source Sans Pro','Arial','sans-serif'; font-size:16px; color:#333333;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16px;&quot;&gt;Practice by taking and retaking the problem sets. Physiology is best learned through application.&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Source Sans Pro','Arial','sans-serif'; font-size:16px; color:#333333;&quot; style=&quot; margin-top:0px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16px;&quot;&gt;Take the exams to give yourself a bench mark of accomplishment. Importantly the exam provides a feedback as to how well you have mastered the materials.&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Source Sans Pro','Arial','sans-serif'; font-size:16px; font-weight:696; color:#333333;&quot;&gt;Thank you for choosing to join us. We love to meet our students! If you would like, please post something about yourself or why you are taking the course in the 'Meet and Greet' portion of our discussion forum. You can also use it to meet other students in your area and to form study groups. We hope that you enjoy the course!&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Source Sans Pro','Arial','sans-serif'; font-size:16px; font-weight:696; color:#333333; background-color:#ffffff;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'Source Sans Pro','Arial','sans-serif'; font-size:16px; color:#333333; background-color:#ffffff;&quot;&gt;Emma (Mimi) Jakoi and Jennifer Carbrey&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>

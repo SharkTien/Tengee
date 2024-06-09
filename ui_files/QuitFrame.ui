@@ -103,6 +103,9 @@ color: rgb(255, 255, 255);</string>
            <bold>true</bold>
           </font>
          </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
 	border-radius:10;
@@ -136,6 +139,9 @@ QPushButton:hover {
            <italic>false</italic>
            <bold>true</bold>
           </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="toolTip">
           <string/>

@@ -231,8 +231,14 @@ class User(Data):
         self.__password = password
         self.__username = username
         self.__role = role
+        self.update_courses()
+
+    def update_courses(self):
+        """
+            update_courses(): update the list courses of users
+        """
         self.data_courses = open(DATA_COURSES_OWNER, 'r').read().split("\n")[:-1]
-        self.data_courses = {self.data_courses[i]:[j for j in self.data_courses[i+1].split() if j != ""] for i in range(0,len(self.data_courses),2)}[id]
+        self.data_courses = {self.data_courses[i]:[j for j in self.data_courses[i+1].split() if j != ""] for i in range(0,len(self.data_courses),2)}[self.id]
         
     def get_this_user(self):
         """

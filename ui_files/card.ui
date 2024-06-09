@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1288</width>
-    <height>250</height>
+    <height>200</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,7 +19,7 @@
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>250</height>
+    <height>200</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -95,14 +95,14 @@ QPushButton:hover {
        <widget class="QFrame" name="cardimg">
         <property name="minimumSize">
          <size>
-          <width>280</width>
-          <height>180</height>
+          <width>273</width>
+          <height>153</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>280</width>
-          <height>180</height>
+          <width>273</width>
+          <height>153</height>
          </size>
         </property>
         <property name="autoFillBackground">
@@ -156,7 +156,13 @@ padding: -50px;</string>
            <property name="minimumSize">
             <size>
              <width>150</width>
-             <height>65</height>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>50</height>
             </size>
            </property>
            <property name="font">
@@ -186,13 +192,13 @@ padding: -50px;</string>
            <property name="minimumSize">
             <size>
              <width>150</width>
-             <height>45</height>
+             <height>30</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>20</height>
+             <height>30</height>
             </size>
            </property>
            <property name="font">
@@ -219,13 +225,13 @@ padding: -50px;</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>50</height>
+             <height>25</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>200</height>
+             <height>25</height>
             </size>
            </property>
            <property name="font">
@@ -237,13 +243,16 @@ padding: -50px;</string>
            <property name="text">
             <string>Description here</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
            <property name="wordWrap">
             <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QFrame" name="frame">
+          <widget class="QFrame" name="frame_price">
            <property name="maximumSize">
             <size>
              <width>16777215</width>
@@ -320,7 +329,7 @@ padding: -50px;</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>50</height>
+             <height>40</height>
             </size>
            </property>
            <property name="frameShape">
@@ -350,7 +359,7 @@ padding: -50px;</string>
               <property name="minimumSize">
                <size>
                 <width>200</width>
-                <height>40</height>
+                <height>35</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -379,7 +388,7 @@ padding: -50px;</string>
               <property name="minimumSize">
                <size>
                 <width>200</width>
-                <height>40</height>
+                <height>35</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -404,11 +413,40 @@ padding: -50px;</string>
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="continue_study">
+              <property name="minimumSize">
+               <size>
+                <width>200</width>
+                <height>35</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>13</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Continue study</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="more_information">
               <property name="minimumSize">
                <size>
                 <width>250</width>
-                <height>40</height>
+                <height>35</height>
                </size>
               </property>
               <property name="maximumSize">

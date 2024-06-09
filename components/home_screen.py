@@ -63,9 +63,13 @@ class HomeScreen(QMainWindow):
             self.edit_btn.clicked.connect(lambda: self.edit_course())
             self.enroll_btn.clicked.connect(lambda: self.show_details())
             self.more_information.clicked.connect(lambda: self.show_details())
+            self.continue_study.clicked.connect(lambda: self.show_content())
             
         def show_details(self):
             self.ui.tabs.setCurrentIndex(4)
+            self.ui.id_hidden.hide()
+            self.ui.id_hidden_course.hide()
+            self.ui.id_hidden.setText(self.ui.datamanager.find_data(1, self.meta_data["author"]).id)
             self.ui.B_title.setText(self.meta_data["title"])
             self.ui.B_description.setText(self.meta_data["description"].replace("•","\n"))
             self.ui.B_author.setText(self.ui.datamanager.find_data(2,self.meta_data["author"]))
@@ -76,6 +80,7 @@ class HomeScreen(QMainWindow):
             self.ui.B_description_p.setText(self.ui.B_description.text().replace("•","\n"))
             self.ui.author_p.setText(self.ui.B_author.text())
             self.ui.price_total.setText(str(self.ui.fl_price.text()))
+            self.ui.id_hidden_course.setText(self.meta_data["id"])
             self.ui.cardnumber.setText(self.ui.datamanager.find_data(1, self.meta_data["author"]).bank_account.get_this_bank()["cardnumber"])
             self.ui.bankname.setText(self.ui.datamanager.find_data(1, self.meta_data["author"]).bank_account.get_this_bank()["bank_name"])
             self.ui.recipient.setText(self.ui.datamanager.find_data(1, self.meta_data["author"]).bank_account.get_this_bank()["recipient"])
@@ -330,6 +335,10 @@ class UIFunction(HomeScreen):
                 elif ui.data.get_this_user()["role"] == '0':
                     ui.Card.more_information.hide()
                     ui.Card.edit_btn.hide()
+                ui.Card.continue_study.hide()
+                if item.id in ui.data.data_courses:
+                    ui.Card.enroll_btn.setText("Enrolled")
+                    ui.Card.enroll_btn.setDisabled(True)
 
                 current_layout.addWidget(ui.Card)
         if len(current_layout) == 1:
@@ -375,14 +384,56 @@ class StudentUIFunctions(UIFunction):
         ui.purchase.clicked.connect(lambda: ui.tabs.setCurrentIndex(5))
         ui.backbutton_p.clicked.connect(lambda: ui.tabs.setCurrentIndex(4))
         ui.confirm.clicked.connect(lambda: self.confirm_banking(ui))
+        ui.ycourses_btn.clicked.connect(lambda: self.load_purchased_course(ui))
         
-    
+    def load_purchased_course(self, ui):
+        """
+        load_purchased_courses(self, ui): Fetch purchased courses of the current user from data file
+        """
+        ui.data.update_courses()
+        ui.tabs.setCurrentIndex(2)
+        ui.search.clear()
+        ui.no_created_found.hide()
+        ui.create_course.hide()
+        ui.create_course_btn.hide()
+        current_layout = ui.tc_content.layout()
+        if current_layout:
+            for i in ui.tc_content.children()[3:]:
+                i.setParent(None)
+        ui.tc_scroll.verticalScrollBar().setValue(1)
+        for i in ui.data.data_courses:   
+            item = ui.datamanager.find_data(0, i)
+            ui.Card = ui.CardFrame(ui, item)
+            ui.Card.enroll_btn.hide()
+            ui.Card.edit_btn.hide()
+            ui.Card.more_information.hide()
+            ui.Card.frame_price.hide()
+            current_layout.addWidget(ui.Card)
+
+        ui.titl_create_course.setText("YOUR PURCHASED COURSES HERE")
+        ui.no_created_found.setText("You have not enrolled any courses yet")
+        if len(current_layout) == 2:
+            ui.no_created_found.show()
+
     def confirm_banking(self, ui):
         """
         confirm_banking(self, ui): fuction confirming if users have already transfered tuition fee
         """
-        if self.warn_banking_frame(ui):
+        if len(ui.lineEdit.text().split()) == 0:
+            ui.lineEdit.setStyleSheet("""
+                                        border-bottom: 1px solid rgb(255, 0, 0);
+                                        border-radius: 0px;
+                                        color: rgb(255, 0, 0);
+                                      """)
+        elif self.warn_banking_frame(ui):
+            ui.lineEdit.setStyleSheet("""
+                                        border-bottom: 1px solid gray;
+                                        border-radius: 0px;
+                                        color: rgb(0, 0, 0);
+                                      """)
             ui.tabs.setCurrentIndex(4)
+            data = [ui.id_hidden.text(), ui.data.id, ui.B_title_p.text(), ui.price_total.text(), ui.code.text(), ui.lineEdit.text(), ui.thumbnail_banner.styleSheet().split("/")[-1][:-2], ui.id_hidden_course.text()]
+            open(PENDING_PATH,'a+',encoding='utf-8').write("•".join(data)+'\n')
             
 
     def warn_banking_frame(self, ui):
@@ -392,11 +443,25 @@ class StudentUIFunctions(UIFunction):
         msg = QMessageBox.question(
             ui, 
             "Confirm banking",
-            "Confirm successful transfer? If you have not made the transfer, your account will be blocked.",
+            "Confirm successful transfer? If you have not made the transfer or your cardholdername is invalid, your account will be blocked or declined refunds.",
             QMessageBox.Yes | QMessageBox.Cancel,
             QMessageBox.Cancel,
         )
-        return msg == QMessageBox.Yes
+        if msg == QMessageBox.Yes:
+            return self.done_banking_frame(ui)
+    
+    def done_banking_frame(self, ui):
+        """
+        warn_banking_frame(self): display QMessageBox
+        """
+        QMessageBox.question(
+            ui, 
+            "Thankyou message",
+            "Thank you for your registration. I will respond to you within the next 24 hours",
+            QMessageBox.Yes
+        )
+        return True
+
 
 
 class TeacherUIFunctions(UIFunction):
@@ -406,6 +471,82 @@ class TeacherUIFunctions(UIFunction):
         methods:
             __init__(self)
     """
+    class PopupsFrame(QWidget):
+        """
+        class PopupsFrame: Generate UI notification cards for loading notifications
+        method:
+            __init__(ui, data)
+        """
+        def __init__(self, ui, data, *args, **kwargs):
+            """
+            __init__(ui, data) initiate class with attributes from class QWidget and load UI file
+            """
+            super().__init__(*args, **kwargs)
+            uic.loadUi(NOTIFICATION_POPUP_PATH, self)
+            self.ui = ui
+            self.data = data
+            self.connect_frame_btn()
+            if self.data:
+                self.cardimg.setStyleSheet(f"""
+                            border-image: url(./ui_files/src/courses/{self.data[6]});
+                            border-radius: 10px;
+                                        """)
+            self.title.setText(self.data[2])
+            self.cname.setText(self.data[5])
+            self.price.setText(self.data[3])
+            self.code.setText(self.data[4])
+            
+        
+        def connect_frame_btn(self):
+            """
+                connect_frame_btn(ui): initate function for buttons
+            """
+            self.reject.clicked.connect(lambda: self.delete(self.ui))   
+            self.accept_btn.clicked.connect(lambda: self.accept(self.ui))
+        
+        def accept(self, ui):
+            if self.warn_accept(ui):
+                data = [i.split("•") for i in open(PENDING_PATH, 'r', encoding='utf-8').read().rstrip().split("\n")]
+                data.remove(self.data)
+                open(PENDING_PATH, 'w', encoding='utf-8').write("\n".join(["•".join(i) for i in data]))
+            
+            data = open(DATA_COURSES_OWNER, 'r', encoding='utf-8').read().split("\n")[:-1]
+            data = {data[i]:data[i+1].split() for i in range(0,len(data),2)}
+            data[self.data[1]].append(self.data[7])
+            with open(DATA_COURSES_OWNER, 'w') as f:
+                for key,value in data.items():
+                    f.write("%s\n%s\n" % (key, " ".join(value)))
+            
+            self.ui.notifications.clicked.emit()
+
+
+        def delete(self, ui):
+            if self.warn_reject(ui):
+                data = [i.split("•") for i in open(PENDING_PATH, 'r', encoding='utf-8').read().rstrip().split("\n")]
+                data.remove(self.data)
+                open(PENDING_PATH, 'w', encoding='utf-8').write("\n".join(["•".join(i) for i in data]))
+                self.ui.notifications.clicked.emit()
+
+        def warn_reject(self, ui):
+            msg = QMessageBox.question(
+            ui, 
+            "Ignore request",
+            "Confirm ignore this requests? You could be reported by this student.",
+            QMessageBox.Yes | QMessageBox.Cancel,
+            QMessageBox.Cancel,
+            )
+            return msg == QMessageBox.Yes
+
+        def warn_accept(self, ui):
+            msg = QMessageBox.question(
+            ui, 
+            "Accept request",
+            "Confirm accept this requests? You cannot undo this action",
+            QMessageBox.Yes | QMessageBox.Cancel,
+            QMessageBox.Cancel,
+            )
+            return msg == QMessageBox.Yes
+        
     def __init__(self, ui):
         """
         __init__(self): initiate attributes for Student role and related functions
@@ -430,13 +571,37 @@ class TeacherUIFunctions(UIFunction):
         ui.create_course.clicked.connect(lambda: self.add_courses(ui))
         ui.create_course_btn.clicked.connect(lambda: self.add_courses(ui))
         ui.Save.clicked.connect(lambda: self.save_banking(ui))
+        ui.notifications.clicked.connect(lambda: self.load_notification(ui))
     
+    def load_notification(self, ui):
+        ui.tabs.setCurrentIndex(6)
+        data = open(PENDING_PATH, 'r', encoding='utf-8').read().rstrip().split("\n")
+            
+        current_layout = ui.notification_content.layout()
+        if current_layout:
+            for i in ui.notification_content.children()[2:]:
+                i.setParent(None)
+        ui.tc_scroll.verticalScrollBar().setValue(1)
+        ui.noNotification.hide()
+        for item in data:
+            i = item.split("•")
+            if i[0] == ui.data.id:
+                ui.popup = TeacherUIFunctions.PopupsFrame(ui, i)
+                current_layout.addWidget(ui.popup)
+        
+        if len(current_layout) == 1:
+            ui.noNotification.show()
+
     def open_addCourse_page(self, ui):
         ui.tabs.setCurrentIndex(2)
         if not ui.data.bank_account:
+            ui.create_course_btn.setText("Add bank account first")
+            ui.create_course.setText("Add bank account first")
             ui.create_course_btn.setDisabled(True)
             ui.create_course.setDisabled(True)
         else:
+            ui.create_course_btn.setText("Add more")
+            ui.create_course.setText("Add a course")
             ui.create_course_btn.setDisabled(False)
             ui.create_course.setDisabled(False)
 
@@ -460,6 +625,7 @@ class TeacherUIFunctions(UIFunction):
         """
         load_created_courses(self, ui): Fetch created courses of the current user from data file
         """
+        ui.data.update_courses()
         ui.search.clear()
         ui.no_created_found.hide()
         ui.create_course.hide()
@@ -476,6 +642,7 @@ class TeacherUIFunctions(UIFunction):
             item = ui.datamanager.find_data(0, i)
             ui.Card = ui.CardFrame(ui, item)
             ui.Card.enroll_btn.hide()
+            ui.Card.continue_study.hide()
             current_layout.addWidget(ui.Card)
 
         if len(current_layout) == 2:
@@ -550,4 +717,3 @@ class TeacherUIFunctions(UIFunction):
         cardnumber = ui.Cardnumber_entry.text()
         recipient = ui.Recipient_entry.text()
         ui.data.insert_bank(bankname, cardnumber, recipient)
-        
