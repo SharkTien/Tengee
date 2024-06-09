@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1500</width>
-    <height>800</height>
+    <height>897</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -649,7 +649,7 @@ QPushButton:hover {
 }</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>7</number>
          </property>
          <widget class="QWidget" name="home">
           <property name="styleSheet">
@@ -913,7 +913,7 @@ QScrollBar::add-page, QScrollBar::sub-page {
                    <x>0</x>
                    <y>0</y>
                    <width>1177</width>
-                   <height>577</height>
+                   <height>673</height>
                   </rect>
                  </property>
                  <property name="styleSheet">
@@ -976,8 +976,8 @@ Try adjusting your search. Here are some ideas:
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>606</width>
-                <height>641</height>
+                <width>1197</width>
+                <height>788</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1355,10 +1355,9 @@ color:#c09054;
              </property>
              <property name="styleSheet">
               <string notr="true">QPushButton {
-height: 30px;
-border: 2px solid #111;
+border: 1px solid rgb(0, 0, 0);
 border-radius: 12px;
-color: #111;
+color: rgb(0, 0, 0);
 font: bold;
 }
 
@@ -1428,6 +1427,12 @@ color:#c09054
                   <height>40</height>
                  </size>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -1495,8 +1500,8 @@ QScrollBar::add-page, QScrollBar::sub-page {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>501</width>
-                <height>185</height>
+                <width>1215</width>
+                <height>720</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1540,7 +1545,7 @@ QScrollBar::add-page, QScrollBar::sub-page {
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true"/>
+                  <string notr="true">color: gray;</string>
                  </property>
                  <property name="text">
                   <string>You have not created any courses yet
@@ -1558,10 +1563,16 @@ Create one right now?
                  <property name="enabled">
                   <bool>true</bool>
                  </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>40</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="minimumSize">
                   <size>
                    <width>150</width>
-                   <height>0</height>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="maximumSize">
@@ -1583,17 +1594,16 @@ Create one right now?
                   <cursorShape>PointingHandCursor</cursorShape>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">QPushButton {
-height: 30px;
-border: 2px solid #111;
+                  <string notr="true">#create_course {
+border: 1px solid #111;
 border-radius: 12px;
 color: #111;
 }
 
-QPushButton:hover {
+#create_course:hover {
 	background: #c09054;
-	color: #fff;
-	border: transparent;
+	color: rgb(255, 255, 255);
+	border: none;
 }
 
 </string>
@@ -1674,7 +1684,7 @@ QScrollBar::add-page, QScrollBar::sub-page {
                 <x>0</x>
                 <y>0</y>
                 <width>1215</width>
-                <height>709</height>
+                <height>806</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -2236,7 +2246,7 @@ QScrollBar::add-page, QScrollBar::sub-page {
                 <x>0</x>
                 <y>0</y>
                 <width>897</width>
-                <height>710</height>
+                <height>709</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -3835,7 +3845,7 @@ QScrollBar::add-page, QScrollBar::sub-page {
                 <x>0</x>
                 <y>0</y>
                 <width>1206</width>
-                <height>710</height>
+                <height>806</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -3960,7 +3970,7 @@ QScrollBar::add-page, QScrollBar::sub-page {
                 <x>0</x>
                 <y>0</y>
                 <width>300</width>
-                <height>710</height>
+                <height>806</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -4152,7 +4162,7 @@ QScrollBar::add-page, QScrollBar::sub-page {
                 <x>0</x>
                 <y>0</y>
                 <width>913</width>
-                <height>708</height>
+                <height>804</height>
                </rect>
               </property>
               <property name="styleSheet">

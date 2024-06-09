@@ -108,6 +108,86 @@ class HomeScreen(QMainWindow):
             self.ui.oldprice.setText(self.meta_data["oldprice"])
             
     #================== END CLASS CARD =======================================#
+    class PopupsFrame(QWidget):
+        """
+        class PopupsFrame: Generate UI notification cards for loading notifications
+        method:
+            __init__(ui, data)
+        """
+        def __init__(self, ui, data, *args, **kwargs):
+            """
+            __init__(ui, data) initiate class with attributes from class QWidget and load UI file
+            """
+            super().__init__(*args, **kwargs)
+            uic.loadUi(NOTIFICATION_POPUP_PATH, self)
+            self.ui = ui
+            self.data = data
+            self.connect_frame_btn()
+            if self.data:
+                self.cardimg.setStyleSheet(f"""
+                            border-image: url(./ui_files/src/courses/{self.data[6]});
+                            border-radius: 10px;
+                                        """)
+            self.title.setText(self.data[2])
+            self.cname.setText(self.data[5])
+            self.price.setText(self.data[3])
+            self.code.setText(self.data[4])
+            
+        
+        def connect_frame_btn(self):
+            """
+                connect_frame_btn(ui): initate function for buttons
+            """
+            self.reject.clicked.connect(lambda: self.delete(self.ui))   
+            self.accept_btn.clicked.connect(lambda: self.accept(self.ui))
+        
+        def accept(self, ui):
+            if self.warn_accept(ui):
+                data = [i.split("•") for i in open(PENDING_PATH, 'r', encoding='utf-8').read().rstrip().split("\n")]
+                for i in range(0, len(data)):
+                    if data[i] == self.data:
+                        data[i][-1] = '1'
+                open(PENDING_PATH, 'w', encoding='utf-8').write("\n".join(["•".join(i) for i in data]))
+            
+            data = open(DATA_COURSES_OWNER, 'r', encoding='utf-8').read().split("\n")[:-1]
+            data = {data[i]:data[i+1].split() for i in range(0,len(data),2)}
+            data[self.data[1]].append(self.data[7])
+            with open(DATA_COURSES_OWNER, 'w') as f:
+                for key,value in data.items():
+                    f.write("%s\n%s\n" % (key, " ".join(value)))
+            
+            self.ui.notifications.clicked.emit()
+
+
+        def delete(self, ui):
+            if self.warn_reject(ui):
+                data = [i.split("•") for i in open(PENDING_PATH, 'r', encoding='utf-8').read().rstrip().split("\n")]
+                for i in range(0,len(data)):
+                    if data[i] == self.data:
+                        data[i][-1] = '-1' 
+                open(PENDING_PATH, 'w', encoding='utf-8').write("\n".join(["•".join(i) for i in data]))
+                self.ui.notifications.clicked.emit()
+
+        def warn_reject(self, ui):
+            msg = QMessageBox.question(
+            ui, 
+            "Ignore request",
+            "Confirm ignore this requests? You could be reported by this student.",
+            QMessageBox.Yes | QMessageBox.Cancel,
+            QMessageBox.Cancel,
+            )
+            return msg == QMessageBox.Yes
+
+        def warn_accept(self, ui):
+            msg = QMessageBox.question(
+            ui, 
+            "Accept request",
+            "Confirm accept this requests? You cannot undo this action",
+            QMessageBox.Yes | QMessageBox.Cancel,
+            QMessageBox.Cancel,
+            )
+            return msg == QMessageBox.Yes
+    #============================END POPUPS ==================================
 
     def __init__(self, data, datamanager):
         """
@@ -385,6 +465,53 @@ class StudentUIFunctions(UIFunction):
         ui.backbutton_p.clicked.connect(lambda: ui.tabs.setCurrentIndex(4))
         ui.confirm.clicked.connect(lambda: self.confirm_banking(ui))
         ui.ycourses_btn.clicked.connect(lambda: self.load_purchased_course(ui))
+        ui.notifications.clicked.connect(lambda: self.load_notification(ui))
+
+    def load_notification(self, ui):
+        ui.tabs.setCurrentIndex(6)
+        data = open(PENDING_PATH, 'r', encoding='utf-8').read().rstrip().split("\n")
+            
+        current_layout = ui.notification_content.layout()
+        if current_layout:
+            for i in ui.notification_content.children()[2:]:
+                i.setParent(None)
+        ui.tc_scroll.verticalScrollBar().setValue(1)
+        ui.noNotification.hide()
+        for item in data:
+            i = item.split("•")
+            if i[1] == ui.data.id:
+                ui.popup = StudentUIFunctions.PopupsFrame(ui, i)
+                ui.popup.accept_btn.setDisabled(True)
+                ui.popup.reject.hide()
+                if i[-1] == '1':
+                    ui.popup.accept_btn.setText("Accepted")
+                    ui.popup.accept_btn.setStyleSheet("""
+                        #accept_btn {
+                            border: none;
+                            border-radius: 15px;
+                            background: #c09054;
+                            color: rgb(255, 255, 255);
+                        }
+                                                    """)
+                elif i[-1] == '0':
+                    ui.popup.accept_btn.setText("Pending")
+                elif i[-1] == '-1':
+                    ui.popup.accept_btn.setText("Rejected")
+                    ui.popup.accept_btn.setStyleSheet("""
+                        #accept_btn {
+                            border: none;
+                            border-radius: 15px;
+                            background: rgb(255, 0, 0);
+                            color: rgb(255, 255, 255);
+                        }
+                                                    """)
+                    # ui.popup.reject()
+                    # ui.popup.reject.setText("Report")
+                current_layout.addWidget(ui.popup)
+
+        if len(current_layout) == 1:
+            ui.noNotification.show()
+
         
     def load_purchased_course(self, ui):
         """
@@ -432,7 +559,7 @@ class StudentUIFunctions(UIFunction):
                                         color: rgb(0, 0, 0);
                                       """)
             ui.tabs.setCurrentIndex(4)
-            data = [ui.id_hidden.text(), ui.data.id, ui.B_title_p.text(), ui.price_total.text(), ui.code.text(), ui.lineEdit.text(), ui.thumbnail_banner.styleSheet().split("/")[-1][:-2], ui.id_hidden_course.text()]
+            data = [ui.id_hidden.text(), ui.data.id, ui.B_title_p.text(), ui.price_total.text(), ui.code.text(), ui.lineEdit.text(), ui.thumbnail_banner.styleSheet().split("/")[-1][:-2], ui.id_hidden_course.text(), '0']
             open(PENDING_PATH,'a+',encoding='utf-8').write("•".join(data)+'\n')
             
 
@@ -471,81 +598,6 @@ class TeacherUIFunctions(UIFunction):
         methods:
             __init__(self)
     """
-    class PopupsFrame(QWidget):
-        """
-        class PopupsFrame: Generate UI notification cards for loading notifications
-        method:
-            __init__(ui, data)
-        """
-        def __init__(self, ui, data, *args, **kwargs):
-            """
-            __init__(ui, data) initiate class with attributes from class QWidget and load UI file
-            """
-            super().__init__(*args, **kwargs)
-            uic.loadUi(NOTIFICATION_POPUP_PATH, self)
-            self.ui = ui
-            self.data = data
-            self.connect_frame_btn()
-            if self.data:
-                self.cardimg.setStyleSheet(f"""
-                            border-image: url(./ui_files/src/courses/{self.data[6]});
-                            border-radius: 10px;
-                                        """)
-            self.title.setText(self.data[2])
-            self.cname.setText(self.data[5])
-            self.price.setText(self.data[3])
-            self.code.setText(self.data[4])
-            
-        
-        def connect_frame_btn(self):
-            """
-                connect_frame_btn(ui): initate function for buttons
-            """
-            self.reject.clicked.connect(lambda: self.delete(self.ui))   
-            self.accept_btn.clicked.connect(lambda: self.accept(self.ui))
-        
-        def accept(self, ui):
-            if self.warn_accept(ui):
-                data = [i.split("•") for i in open(PENDING_PATH, 'r', encoding='utf-8').read().rstrip().split("\n")]
-                data.remove(self.data)
-                open(PENDING_PATH, 'w', encoding='utf-8').write("\n".join(["•".join(i) for i in data]))
-            
-            data = open(DATA_COURSES_OWNER, 'r', encoding='utf-8').read().split("\n")[:-1]
-            data = {data[i]:data[i+1].split() for i in range(0,len(data),2)}
-            data[self.data[1]].append(self.data[7])
-            with open(DATA_COURSES_OWNER, 'w') as f:
-                for key,value in data.items():
-                    f.write("%s\n%s\n" % (key, " ".join(value)))
-            
-            self.ui.notifications.clicked.emit()
-
-
-        def delete(self, ui):
-            if self.warn_reject(ui):
-                data = [i.split("•") for i in open(PENDING_PATH, 'r', encoding='utf-8').read().rstrip().split("\n")]
-                data.remove(self.data)
-                open(PENDING_PATH, 'w', encoding='utf-8').write("\n".join(["•".join(i) for i in data]))
-                self.ui.notifications.clicked.emit()
-
-        def warn_reject(self, ui):
-            msg = QMessageBox.question(
-            ui, 
-            "Ignore request",
-            "Confirm ignore this requests? You could be reported by this student.",
-            QMessageBox.Yes | QMessageBox.Cancel,
-            QMessageBox.Cancel,
-            )
-            return msg == QMessageBox.Yes
-
-        def warn_accept(self, ui):
-            msg = QMessageBox.question(
-            ui, 
-            "Accept request",
-            "Confirm accept this requests? You cannot undo this action",
-            QMessageBox.Yes | QMessageBox.Cancel,
-            QMessageBox.Cancel,
-            )
-            return msg == QMessageBox.Yes
         
     def __init__(self, ui):
         """
@@ -585,7 +637,7 @@ class TeacherUIFunctions(UIFunction):
         ui.noNotification.hide()
         for item in data:
             i = item.split("•")
-            if i[0] == ui.data.id:
+            if i[0] == ui.data.id and i[-1] == '0':
                 ui.popup = TeacherUIFunctions.PopupsFrame(ui, i)
                 current_layout.addWidget(ui.popup)
         
